@@ -4,8 +4,10 @@ class "PlayerBar" {
     isPlayerOne = false;
 }
 
-function PlayerBar:__init(isPlayerOne)
+function PlayerBar:__init(isPlayerOne, health)
     self.isPlayerOne = isPlayerOne or false
+    self.maxHealth = health
+    self.health = health
 end
 
 function PlayerBar:draw()

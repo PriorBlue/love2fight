@@ -7,11 +7,9 @@ love2fight = {}
 
 function love.load()
 	background = createBackground(0,0, 'gfx/back01.png')
-	
 	fighter1 = loadFighter("data/fighter01.lua", love.graphics.getWidth() * 0.25, love.graphics.getHeight() - 80)
 	fighter2 = loadFighter("data/fighter02.lua", love.graphics.getWidth() * 0.75, love.graphics.getHeight() - 80)
-
-    love2fight.gameInterface = GameInterface:new()
+    love2fight.gameInterface = GameInterface:new(health)
 end
 
 function love.update(dt)

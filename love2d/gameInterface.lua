@@ -7,9 +7,9 @@ class "GameInterface" {
     player2Bar = {};
 }
 
-function GameInterface:__init()
-    self.player1Bar = PlayerBar:new(true) --TODO add variables here
-    self.player2Bar = PlayerBar:new(false) --TODO add variables here
+function GameInterface:__init(health)
+    self.player1Bar = PlayerBar:new(true, health) --TODO add variables here
+    self.player2Bar = PlayerBar:new(false, health) --TODO add variables here
     
 end
 
