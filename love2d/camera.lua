@@ -14,15 +14,15 @@ function createCamera(objects)
 			obj.x = obj.x + v.x
 		end
 		
-		obj.x = obj.x / cnt
+		obj.x = obj.x / cnt - love.graphics.getWidth() * 0.5
 	end
 	
 	obj.trans = function()
-		love.graphics.translate(-obj.x + love.graphics.getWidth() * 0.5, 0)
+		love.graphics.translate(-obj.x, 0)
 	end
 	
 	obj.untrans = function()
-		love.graphics.translate(obj.x - love.graphics.getWidth() * 0.5, 0)
+		love.graphics.origin()
 	end
 
 	return obj
