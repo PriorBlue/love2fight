@@ -7,9 +7,9 @@ require("physicElements")
 
 function love.load()
  
-  background = createBackground(-100,-50, 'gfx/back01.png', 10)   
-  street = createBackground(-100,love.graphics.getHeight()- 60 , 'gfx/street01.jpg', 70)   
-  street2 = createBackground(450,love.graphics.getHeight()- 60 , 'gfx/street01.jpg', 70)   
+  background = createBackground(0,0, 'gfx/back01.png', 10, true,  love.graphics.getWidth(),  love.graphics.getHeight())   
+  street = createBackground(0, love.graphics.getHeight()- 60 , 'gfx/street01.jpg', 70, true, love.graphics.getWidth() )   
+  
   castel = createBackground(love.graphics.getWidth() - love.graphics.getWidth()/2 +25 ,love.graphics.getHeight()-       love.graphics.getHeight()/2 - 50 , 'gfx/castel01.png', 25) 
   
   cloud1= createBackground(10,50 , 'gfx/cloud.png', 50)  
@@ -19,7 +19,7 @@ function love.load()
   cloud5= createBackground(800,10 , 'gfx/cloud.png', 50)  
 
   clouds = {cloud1, cloud2, cloud3, cloud4, cloud5}
-  backgrounds = {background, street, street2, castel}
+  backgrounds = {background, street, castel}
  
 	love2fight = {}
 
