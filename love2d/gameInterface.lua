@@ -8,7 +8,6 @@ local healthBarY = 0
 local healthBarBorderDistance = 10
 local gameTimerWidth = 90
 -- a little hack to determine if the newText function is available
--- TODO temporary overwrite
 local loveVersion10 = g.newText or false
 
 class "GameInterface" {
@@ -46,7 +45,7 @@ function GameInterface:__init(player1HealthFunction, player2HealthFunction, game
     self.gameTimerHeight = height+15--*0.9
     self.gameTimerWidth = gameTimerWidth
     if loveVersion10 then
-        self.gameTimeGraphic = g.newText(g.newImageFont("gfx/imagefont.png",
+        self.gameTimeGraphic = g.newText(g.newImageFont("gfx/timerSymbols.png",
             " 0123456789.,:∞"),self.gameTime)
         self.gameTimeGraphic:setf(tostring(self.gameTime),self.gameTimerWidth, "center")
     end
