@@ -2,13 +2,14 @@ require('lib/32linesofgoodness')
 require('background')
 require('clouds')
 require('fighter')
+require("gameInterface")
 
 function love.load()
  
   background = createBackground(-100,-50, 'gfx/back01.png', 10)   
   street = createBackground(-100,love.graphics.getHeight()- 60 , 'gfx/street01.jpg', 70)   
   street2 = createBackground(450,love.graphics.getHeight()- 60 , 'gfx/street01.jpg', 70)   
-  castel = createBackground(love.graphics.getWidth() - love.graphics.getWidth()/2 +25 ,love.graphics.getHeight()-   love.graphics.getHeight()/2 - 50 , 'gfx/castel01.png', 25) 
+  castel = createBackground(love.graphics.getWidth() - love.graphics.getWidth()/2 +25 ,love.graphics.getHeight()-       love.graphics.getHeight()/2 - 50 , 'gfx/castel01.png', 25) 
   
   cloud1= createBackground(10,50 , 'gfx/cloud.png', 50)  
   cloud2= createBackground(150,90 , 'gfx/cloud.png', 50)  
@@ -19,9 +20,12 @@ function love.load()
   clouds = {cloud1, cloud2, cloud3, cloud4, cloud5}
   backgrounds = {background, street, street2, castel}
  
-	fighter1 = createFighter(8, love.graphics.getHeight() - 32, 32, 32, 100)
-	fighter2 = createFighter(448, love.graphics.getHeight() - 64, 64, 64, 200)
+love2fight = {}
 
+	background = createBackground(0,0, 'gfx/back01.png')
+	fighter1 = loadFighter("data/fighter01.lua", love.graphics.getWidth() * 0.25, love.graphics.getHeight() - 80)
+	fighter2 = loadFighter("data/fighter02.lua", love.graphics.getWidth() * 0.75, love.graphics.getHeight() - 80)
+    love2fight.gameInterface = GameInterface:new(health)
 end
 
 function love.update(dt)
@@ -41,6 +45,7 @@ function love.update(dt)
 end
 
 function love.draw()
+
   local i=0
   for k,v in pairs (backgrounds) do
     v.draw()
@@ -51,6 +56,7 @@ function love.draw()
   
 	fighter1.draw()
 	fighter2.draw()
+  love2fight.gameInterface:draw()
 end
 
 function love.keypressed(key)
