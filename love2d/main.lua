@@ -35,6 +35,10 @@ function love.load()
     love2fight.gameInterface = GameInterface:new(fighter1.getHealth, fighter2.getHealth)
 	
 	camera = createCamera({fighter1, fighter2})
+  
+  sfx = love.audio.newSource("sfx/321fight.mp3", "static")
+  love.audio.play(sfx)
+
 end
 
 function love.update(dt)
