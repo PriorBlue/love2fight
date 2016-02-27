@@ -32,7 +32,7 @@ function love.load()
 
 	fighter1 = loadFighter("data/fighter01.lua", love.graphics.getWidth() * 0.25, love.graphics.getHeight() - 80)
 	fighter2 = loadFighter("data/fighter02.lua", love.graphics.getWidth() * 0.75, love.graphics.getHeight() - 80)
-    love2fight.gameInterface = GameInterface:new(health)
+    love2fight.gameInterface = GameInterface:new(fighter1.getHealth, fighter2.getHealth)
 	
 	camera = createCamera({fighter1, fighter2})
   
@@ -46,6 +46,7 @@ function love.update(dt)
 	fighter2.update(dt)
 	camera.update(dt)
 	phyWorld:update(dt)
+	love2fight.gameInterface:update(dt)
   
   for k,v in pairs (backgrounds) do
     v.update(dt, camera)

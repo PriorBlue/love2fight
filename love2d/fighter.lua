@@ -18,6 +18,7 @@ function createFighter(data)
 	obj.jumpDelay = data.jumpDelay or 1
 	obj.jumpTime = 0
 	obj.maxHealth = data.health or 100
+	obj.health = obj.maxHealth
 	obj.maxLifes = data.lifes or 3
 	obj.color = data.color or {255, 255, 255}
 	obj.controls = data.controls or {
@@ -81,5 +82,11 @@ function createFighter(data)
 		end
 	end
 
+	obj.getHealth = function()
+	    if obj.health > 0 then
+	        obj.health = obj.health - 0.1
+	    end
+	    return obj.health
+	end
 	return obj
 end
