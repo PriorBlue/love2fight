@@ -4,9 +4,10 @@ class "PlayerBar" {
     
 }
 
-function PlayerBar:__init(isPlayerOne, maxhealth, xPos, yPos, width, height)
-    self.maxHealth   = 100
-    self.health      = 90
+function PlayerBar:__init(isPlayerOne, healthFunction, xPos, yPos, width, height)
+    self.maxHealth   = healthFunction()
+    self.health      = healthFunction()
+    self.healthFunction = healthFunction
     self.xPos        = xPos
     self.yPos        = yPos
     self.width       = width
@@ -40,7 +41,10 @@ function PlayerBar:draw()
     g.setColor(oldr,oldg,oldb,olda)
 end
 
-function PlayerBar:update(dt,health)
-    self.health = health
+function PlayerBar:update(dt)
+    self.health = self.healthFunction()
+    if self.health < 0 then
+        self.health = 0
+    end
 end
 
