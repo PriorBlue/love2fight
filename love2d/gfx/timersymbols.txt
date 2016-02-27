@@ -1,0 +1,3 @@
+symbols that should be in timerSymbols.png:
+" 0123456789.,:∞"
+(all other symbols can be deleted there
