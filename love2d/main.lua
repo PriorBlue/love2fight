@@ -9,9 +9,7 @@ function love.load()
   background = createBackground(0,0, 'gfx/back01.png')  
 	fighter1 = createFighter(8, love.graphics.getHeight() - 32, 32, 32, 100)
 	fighter2 = createFighter(448, love.graphics.getHeight() - 64, 64, 64, 200)
-
-function love.load()
-    love2fight.gameInterface = GameInterface:new()
+    love2fight.gameInterface = GameInterface:__init()
 end
 
 function love.update(dt)
