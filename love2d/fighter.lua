@@ -1,3 +1,11 @@
+function loadFighter(path, x, y)
+	local data = dofile(path)
+	data.x = x
+	data.y = y
+	
+	return createFighter(data)
+end
+
 function createFighter(data)
 	local obj = {}
 

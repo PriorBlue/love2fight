@@ -1,29 +1,17 @@
 require('lib/32linesofgoodness')
 require('background')
 require('fighter')
+require("gameInterface")
+
+love2fight = {}
 
 function love.load()
-	background = createBackground(0,0, 'gfx/back01.png')  
-	fighter1 = createFighter({
-		x = 8,
-		y = love.graphics.getHeight() - 48,
-		width = 32,
-		height = 32,
-		speed = 100,
-		health = 100,
-		live = 2,
-		color = {255, 0, 0},
-	})
-	fighter2 = createFighter({
-		x = 448,
-		y = love.graphics.getHeight() - 80,
-		width = 64,
-		height = 64,
-		speed = 200,
-		health = 100,
-		live = 2,
-		color = {0, 255, 0},
-	})
+	background = createBackground(0,0, 'gfx/back01.png')
+	
+	fighter1 = loadFighter("data/fighter01.lua", 32, love.graphics.getHeight() - 80)
+	fighter2 = loadFighter("data/fighter02.lua", 240, love.graphics.getHeight() - 80)
+
+    love2fight.gameInterface = GameInterface:new()
 end
 
 function love.update(dt)
@@ -36,6 +24,7 @@ function love.draw()
     --haus.draw()
 	fighter1.draw()
 	fighter2.draw()
+    love2fight.gameInterface:draw()
 end
 
 function love.keypressed(key)
