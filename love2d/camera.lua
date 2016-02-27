@@ -14,7 +14,12 @@ function createCamera(objects)
 			obj.x = obj.x + v.x
 		end
 		
-		obj.x = obj.x / cnt - love.graphics.getWidth() * 0.5
+		obj.x = obj.x / cnt
+		
+		obj.x = math.max(-800, obj.x)
+		obj.x = math.min(800, obj.x)
+		
+		obj.x = obj.x - love.graphics.getWidth() * 0.5
 	end
 	
 	obj.trans = function()

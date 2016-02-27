@@ -27,8 +27,8 @@ function love.load()
 	phyWorld:setCallbacks(beginContact, endContact, preSolve, postSolve)
 
 	createPhysicsBox(400, 600, 8000, 64)
-	border1 = createPhysicsBox(0, 400, 32, 600)
-	border2 = createPhysicsBox(800, 400, 32, 600)
+	border1 = createPhysicsBox(0, 300, 32, 600)
+	border2 = createPhysicsBox(800, 300, 32, 600)
 
 	fighter1 = loadFighter("data/fighter01.lua", love.graphics.getWidth() * 0.25, love.graphics.getHeight() - 80)
 	fighter2 = loadFighter("data/fighter02.lua", love.graphics.getWidth() * 0.75, love.graphics.getHeight() - 80)
@@ -50,25 +50,26 @@ function love.update(dt)
     v.update(dt, camera)
   end
   
-  animateClouds(dt, clouds)
-  
+	animateClouds(dt, clouds)
+	border1.body:setX(camera.x)
+	border2.body:setX(camera.x + love.graphics.getWidth())
 end
 
 function love.draw()
+	local i=0
+	for k,v in pairs (backgrounds) do
+	v.draw()
+	end
+	for k,v in pairs (clouds) do
+	v.draw()
+	end
 
-  local i=0
-  for k,v in pairs (backgrounds) do
-    v.draw()
-  end
-  for k,v in pairs (clouds) do
-    v.draw()
-  end
-  
 	camera.trans()
 	fighter1.draw()
 	fighter2.draw()
+
 	camera.untrans()
-  love2fight.gameInterface:draw()
+	love2fight.gameInterface:draw()
 end
 
 function love.keypressed(key)

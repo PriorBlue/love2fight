@@ -5,7 +5,7 @@ function createPhysicsBox(x, y, width, height)
 	obj.y = y or 0
 	obj.width = width or 32
 	obj.height = height or 32
-	obj.body = love.physics.newBody(phyWorld, obj.x, obj.y, "static")
+	obj.body = love.physics.newBody(phyWorld, obj.x, obj.y, "kinematic")
 	obj.shape = love.physics.newRectangleShape(obj.width, obj.height)
 	obj.fixture = love.physics.newFixture(obj.body, obj.shape)
 
