@@ -3,6 +3,7 @@ require('background')
 require('clouds')
 require('fighter')
 require("gameInterface")
+require("physicElements")
 
 function love.load()
  
@@ -20,9 +21,13 @@ function love.load()
   clouds = {cloud1, cloud2, cloud3, cloud4, cloud5}
   backgrounds = {background, street, castel}
  
-love2fight = {}
+	love2fight = {}
 
-	background = createBackground(0,0, 'gfx/back01.png')
+	phyWorld = love.physics.newWorld(0, 9.81 * 64)
+	phyWorld:setCallbacks(beginContact, endContact, preSolve, postSolve)
+
+	createPhysicsBox(400, 616, 800, 32)
+
 	fighter1 = loadFighter("data/fighter01.lua", love.graphics.getWidth() * 0.25, love.graphics.getHeight() - 80)
 	fighter2 = loadFighter("data/fighter02.lua", love.graphics.getWidth() * 0.75, love.graphics.getHeight() - 80)
     love2fight.gameInterface = GameInterface:new(health)
@@ -31,7 +36,7 @@ end
 function love.update(dt)
 	fighter1.update(dt)
 	fighter2.update(dt)
-   
+	phyWorld:update(dt)
   
   for k,v in pairs (backgrounds) do
     v.update(dt, fighter1.x, fighter2.x)
@@ -72,5 +77,22 @@ function love.mousepressed(x, y, button)
 end
 
 function love.mousemoved(x, y, dx, dy)
+
+end
+
+function beginContact(a, b, coll)
+	fighter1.coll(a, b, coll)
+	fighter2.coll(a, b, coll)
+end
+ 
+function endContact(a, b, coll)
+	
+end
+ 
+function preSolve(a, b, coll)
+		
+end
+ 
+function postSolve(a, b, coll, normalimpulse, tangentimpulse)
 
 end
