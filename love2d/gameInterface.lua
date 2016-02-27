@@ -8,7 +8,8 @@ local healthBarY = 0
 local healthBarBorderDistance = 10
 local gameTimerWidth = 50
 -- a little hack to determine if the newText function is available
-local loveVersion10 = g.newText or false
+-- TODO temporary overwrite
+local loveVersion10 = false --g.newText or false
 
 class "GameInterface" {
     player1Bar = {};
