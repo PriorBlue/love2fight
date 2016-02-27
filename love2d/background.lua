@@ -25,7 +25,7 @@ function createBackground (x, y, pictureName, speed, isQuad, width, height)
   
   obj.draw = function()      
     if obj.isQuad then
-    obj.Quad:setViewport( obj.px, 0,  obj.width, obj.height)
+    obj.Quad:setViewport( -obj.px, 0,  obj.width, obj.height)
       love.graphics.draw(obj.image, obj.Quad, obj.x, obj.y)
     else
       love.graphics.draw(obj.image, obj.x - obj.px, obj.y)
