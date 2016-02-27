@@ -1,3 +1,5 @@
+require('lib/32linesofgoodness')
+
 function love.load()
 
 end
