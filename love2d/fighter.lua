@@ -76,7 +76,7 @@ function createFighter(data)
 
 	obj.coll = function(a, b, coll)
 		local x, y = coll:getNormal()
-		if (a == obj.fixture or b == obj.fixture) and math.abs(y) == 1 then
+		if (a == obj.fixture and y == 1) or (b == obj.fixture and y == -1) then
 			obj.jumpTime = 0
 		end
 	end
