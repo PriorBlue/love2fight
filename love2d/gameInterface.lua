@@ -47,17 +47,17 @@ function GameInterface:__init(player1HealthFunction, player2HealthFunction, game
     self.gameTime = gameTime or '∞'
     local imageFontImage = g.newImage("gfx/timerSymbols.png")
     imageFontImage:setFilter("nearest")
-    self.imageFont = g.newImageFont(imageFontImage," 0123456789.,:∞") 
+    self.imageFont = g.newImageFont(imageFontImage," 0123456789.,:∞")
+    local textX = (self.screenWidth-(self.screenWidth%2))/2-self.gameTimerWidth/2
+    local textY = self.gameTimerY+self.gameTimerHeight/3+10
     if loveVersion10 then
         self.gameTimeGraphic = g.newText(self.imageFont,self.gameTime)
-        self.gameTimeGraphic:setf(tostring(self.gameTime),self.gameTimerWidth, "center")
-        self.drawTime = function () g.draw(self.gameTimeGraphic, (self.screenWidth-(self.screenWidth%2))/2-self.gameTimerWidth/2,
-            self.gameTimerY+self.gameTimerHeight/3+10) end
+        self.gameTimeGraphic:setf(tostring(self.gameTime), self.gameTimerWidth, "center")
+        self.drawTime = function () g.draw(self.gameTimeGraphic, textX, textY) end
     else
         self.drawTime = 
             function () local oldFont = g.getFont(); g.setFont(self.imageFont);
-            g.printf(tostring(self.gameTime), (self.screenWidth-(self.screenWidth%2))/2-self.gameTimerWidth/2,
-            self.gameTimerY+self.gameTimerHeight/3+10,self.gameTimerWidth, "center");
+            g.printf(tostring(self.gameTime), textX, textY, self.gameTimerWidth, "center");
             g.setFont(oldFont)
             end
     end
