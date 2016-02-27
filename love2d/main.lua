@@ -10,7 +10,7 @@ function love.load()
  
   background = createBackground(0,0, 'gfx/back01.png', 2, true,  love.graphics.getWidth(),  love.graphics.getHeight())   
   castel = createBackground(love.graphics.getWidth() - love.graphics.getWidth()/2 +25 ,love.graphics.getHeight()-love.graphics.getHeight()/2 - 50 , 'gfx/castel01.png', 4) 
-  street = createBackground(0, love.graphics.getHeight()- 60 , 'gfx/street01.jpg', 10, true, love.graphics.getWidth() ) 
+  street = createBackground(0, love.graphics.getHeight()- 270 , 'gfx/beach-background.png', 10, true, love.graphics.getWidth() ) 
   
   cloud1= createBackground(10,50 , 'gfx/cloud.png', 3)  
   cloud2= createBackground(150,90 , 'gfx/cloud.png', 3)  
