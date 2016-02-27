@@ -27,6 +27,8 @@ function love.load()
 	phyWorld:setCallbacks(beginContact, endContact, preSolve, postSolve)
 
 	createPhysicsBox(400, 600, 8000, 64)
+	border1 = createPhysicsBox(0, 400, 32, 600)
+	border2 = createPhysicsBox(800, 400, 32, 600)
 
 	fighter1 = loadFighter("data/fighter01.lua", love.graphics.getWidth() * 0.25, love.graphics.getHeight() - 80)
 	fighter2 = loadFighter("data/fighter02.lua", love.graphics.getWidth() * 0.75, love.graphics.getHeight() - 80)
@@ -62,10 +64,8 @@ function love.draw()
     v.draw()
   end
   
-	camera.trans()
-	fighter1.draw()
-	fighter2.draw()
-	camera.untrans()
+	fighter1.draw(camera.x, camera.y)
+	fighter2.draw(camera.x, camera.y)
   love2fight.gameInterface:draw()
 end
 
