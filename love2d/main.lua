@@ -10,7 +10,7 @@ function love.load()
  
   background = createBackground(0,0, 'gfx/back01.png', 2, true,  love.graphics.getWidth(),  love.graphics.getHeight())   
   castel = createBackground(love.graphics.getWidth() - love.graphics.getWidth()/2 +25 ,love.graphics.getHeight()-love.graphics.getHeight()/2 - 50 , 'gfx/castel01.png', 4) 
-  street = createBackground(0, love.graphics.getHeight()- 60 , 'gfx/street01.jpg', 10, true, love.graphics.getWidth() ) 
+  street = createBackground(0, love.graphics.getHeight()- 270 , 'gfx/beach-background.png', 10, true, love.graphics.getWidth() ) 
   
   cloud1= createBackground(10,50 , 'gfx/cloud.png', 3)  
   cloud2= createBackground(150,90 , 'gfx/cloud.png', 3)  
@@ -32,9 +32,13 @@ function love.load()
 
 	fighter1 = loadFighter("data/fighter01.lua", love.graphics.getWidth() * 0.25, love.graphics.getHeight() - 80)
 	fighter2 = loadFighter("data/fighter02.lua", love.graphics.getWidth() * 0.75, love.graphics.getHeight() - 80)
-    love2fight.gameInterface = GameInterface:new(health)
+    love2fight.gameInterface = GameInterface:new(fighter1.getHealth, fighter2.getHealth)
 	
 	camera = createCamera({fighter1, fighter2})
+  
+  sfx = love.audio.newSource("sfx/321fight.mp3", "static")
+  love.audio.play(sfx)
+
 end
 
 function love.update(dt)
@@ -42,6 +46,7 @@ function love.update(dt)
 	fighter2.update(dt)
 	camera.update(dt)
 	phyWorld:update(dt)
+	love2fight.gameInterface:update(dt)
   
   for k,v in pairs (backgrounds) do
     v.update(dt, camera)
