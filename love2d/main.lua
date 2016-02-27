@@ -3,10 +3,27 @@ require('background')
 require('fighter')
 
 function love.load()
-  background = createBackground(0,0, 'gfx/back01.png')  
-	fighter1 = createFighter(8, love.graphics.getHeight() - 32, 32, 32, 100)
-	fighter2 = createFighter(448, love.graphics.getHeight() - 64, 64, 64, 200)
-
+	background = createBackground(0,0, 'gfx/back01.png')  
+	fighter1 = createFighter({
+		x = 8,
+		y = love.graphics.getHeight() - 48,
+		width = 32,
+		height = 32,
+		speed = 100,
+		health = 100,
+		live = 2,
+		color = {255, 0, 0},
+	})
+	fighter2 = createFighter({
+		x = 448,
+		y = love.graphics.getHeight() - 80,
+		width = 64,
+		height = 64,
+		speed = 200,
+		health = 100,
+		live = 2,
+		color = {0, 255, 0},
+	})
 end
 
 function love.update(dt)
