@@ -9,14 +9,14 @@ require("camera")
 function love.load()
  
   background = createBackground(0,0, 'gfx/back01.png', 2, true,  love.graphics.getWidth(),  love.graphics.getHeight())   
-  castel = createBackground(love.graphics.getWidth() - love.graphics.getWidth()/2 +25 ,love.graphics.getHeight()-love.graphics.getHeight()/2 - 50 , 'gfx/castel01.png', 6) 
+  castel = createBackground(love.graphics.getWidth() - love.graphics.getWidth()/2 +25 ,love.graphics.getHeight()-love.graphics.getHeight()/2 - 50 , 'gfx/castel01.png', 4) 
   street = createBackground(0, love.graphics.getHeight()- 60 , 'gfx/street01.jpg', 10, true, love.graphics.getWidth() ) 
   
-  cloud1= createBackground(10,50 , 'gfx/cloud.png', 4)  
-  cloud2= createBackground(150,90 , 'gfx/cloud.png', 4)  
-  cloud3= createBackground(300,30 , 'gfx/cloud.png', 4)  
-  cloud4= createBackground(500,70 , 'gfx/cloud.png', 4)  
-  cloud5= createBackground(800,10 , 'gfx/cloud.png', 4)  
+  cloud1= createBackground(10,50 , 'gfx/cloud.png', 3)  
+  cloud2= createBackground(150,90 , 'gfx/cloud.png', 3)  
+  cloud3= createBackground(300,30 , 'gfx/cloud.png', 3)  
+  cloud4= createBackground(500,70 , 'gfx/cloud.png', 3)  
+  cloud5= createBackground(800,10 , 'gfx/cloud.png', 3)  
 
   clouds = {cloud1, cloud2, cloud3, cloud4, cloud5}
   backgrounds = {background, street, castel}
@@ -64,8 +64,10 @@ function love.draw()
     v.draw()
   end
   
-	fighter1.draw(camera.x, camera.y)
-	fighter2.draw(camera.x, camera.y)
+	camera.trans()
+	fighter1.draw()
+	fighter2.draw()
+	camera.untrans()
   love2fight.gameInterface:draw()
 end
 

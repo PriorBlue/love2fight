@@ -68,9 +68,9 @@ function createFighter(data)
 		obj.y = obj.body:getY()
 	end
 
-	obj.draw = function(x, y)
+	obj.draw = function()
 		love.graphics.setColor(unpack(obj.color))
-		love.graphics.rectangle("fill", obj.body:getX() - obj.width * 0.5 - x, obj.body:getY() - obj.height * 0.5 - y, obj.width, obj.height)
+		love.graphics.rectangle("fill", obj.body:getX() - obj.width * 0.5, obj.body:getY() - obj.height * 0.5, obj.width, obj.height)
 		love.graphics.setColor(255, 255, 255)
 	end
 

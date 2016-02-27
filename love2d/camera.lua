@@ -18,7 +18,7 @@ function createCamera(objects)
 	end
 	
 	obj.trans = function()
-		love.graphics.translate(-obj.x + love.graphics.getWidth() * 0.5, 0)
+		love.graphics.translate(-obj.x, 0)
 	end
 	
 	obj.untrans = function()
