@@ -2,7 +2,7 @@ return {
 	width = 32,
 	height = 32,
 	speed = 100,
-	jumpStrength = 500,
+	jumpStrength = 700,
 	jumpDelay = 0.3,
 	health = 100,
 	lifes = 2,

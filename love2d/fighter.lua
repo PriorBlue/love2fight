@@ -63,6 +63,9 @@ function createFighter(data)
 
 		obj.x = math.max(0, obj.x)
 		obj.x = math.min(love.graphics.getWidth() - obj.width, obj.x)
+		
+		obj.x = obj.body:getX()
+		obj.y = obj.body:getY()
 	end
 
 	obj.draw = function()
@@ -73,7 +76,7 @@ function createFighter(data)
 
 	obj.coll = function(a, b, coll)
 		local x, y = coll:getNormal()
-		if (a == obj.fixture or b == obj.fixture) and math.abs(y) == 1 then
+		if (a == obj.fixture and y == 1) or (b == obj.fixture and y == -1) then
 			obj.jumpTime = 0
 		end
 	end
