@@ -1,6 +1,8 @@
 require('lib/32linesofgoodness')
+require('background')
 
 function love.load()
+  background = createBackground(0,0, 'gfx/back01.png')  
 
 end
 
@@ -9,7 +11,8 @@ function love.update(dt)
 end
 
 function love.draw()
-
+  background.draw()
+    --haus.draw()
 end
 
 function love.keypressed(key)
