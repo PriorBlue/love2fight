@@ -17,13 +17,19 @@ function createFighter(data)
 	obj.maxHealth = data.health or 100
 	obj.maxLives = data.lives or 3
 	obj.color = data.color or {255, 255, 255}
+	obj.controls = data.controls or {
+		left = "a",
+		right = "d",
+		up = "w",
+		down = "s",
+	}
 
 	obj.update = function(dt)
-		if love.keyboard.isDown("a") then
+		if love.keyboard.isDown(obj.controls.left) then
 			obj.x = obj.x - dt * obj.speed
 		end
 
-		if love.keyboard.isDown("d") then
+		if love.keyboard.isDown(obj.controls.right) then
 			obj.x = obj.x + dt * obj.speed
 		end
 		

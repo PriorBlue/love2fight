@@ -5,4 +5,10 @@ return {
 	health = 100,
 	live = 2,
 	color = {255, 0, 0},
+	controls = {
+		left = "a",
+		right = "d",
+		up = "w",
+		down = "s",
+	},
 }
