@@ -1,7 +1,7 @@
 return {
 	width = 64,
 	height = 64,
-	speed = 100,
+	speed = 150,
 	jumpStrength = 300,
 	jumpDelay = 0.5,
 	health = 100,
