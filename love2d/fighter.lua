@@ -63,6 +63,9 @@ function createFighter(data)
 
 		obj.x = math.max(0, obj.x)
 		obj.x = math.min(love.graphics.getWidth() - obj.width, obj.x)
+		
+		obj.x = obj.body:getX()
+		obj.y = obj.body:getY()
 	end
 
 	obj.draw = function()

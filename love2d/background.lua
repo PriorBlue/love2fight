@@ -19,24 +19,8 @@ function createBackground (x, y, pictureName, speed, isQuad, width, height)
   obj.Quad= love.graphics.newQuad (obj.x, obj.y, obj.width, obj.height,  obj.image:getWidth(), obj.image:getHeight()) 
   --obj.Quad:setViewport( x, y, w, h )
   
-  obj.update = function(dt, xFigt1, xFigt2)
-    canMoveBackVar = canMoveBack(xFigt1, xFigt2)
-    if canMoveBackVar == true then
-      if love.keyboard.isDown("a") then
-        obj.px = obj.px + dt * obj.speed
-      end
-
-      if love.keyboard.isDown("d") then
-        obj.px = obj.px - dt * obj.speed
-      end
-      
-      --[[
-      obj.x = math.max(-10, obj.x)
-      obj.x = math.min(love.graphics.getWidth() + 50, obj.x)
-      ]]--
-      
-    end
-		
+	obj.update = function(dt, cam)
+		obj.px = cam.x * obj.speed * 0.1
 	end
   
   obj.draw = function()      
@@ -50,11 +34,3 @@ function createBackground (x, y, pictureName, speed, isQuad, width, height)
   
  return obj  
 end
-
-function canMoveBack (x1, x2) 
-    if (x1 > 0 and x1 < love.graphics.getWidth()-33) and (x2 > 0 and x2 < love.graphics.getWidth()-65) then
-      return true
-    else
-      return false
-    end
-  end
