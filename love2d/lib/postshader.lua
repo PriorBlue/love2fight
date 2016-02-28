@@ -173,6 +173,7 @@ love.postshader.addEffect = function(shader, ...)
 		LOVE_POSTSHADER_CHROMATIC_ABERRATION:send("greenStrength", {args[3] or 0.0, args[4] or 0.0})
 		LOVE_POSTSHADER_CHROMATIC_ABERRATION:send("blueStrength", {args[5] or 0.0, args[6] or 0.0})
 		love.graphics.setShader(LOVE_POSTSHADER_CHROMATIC_ABERRATION)
+		love.graphics.setCanvas(LOVE_POSTSHADER_BUFFER_BACK)
 		love.graphics.draw(LOVE_POSTSHADER_BUFFER_RENDER)
 	elseif shader == "4colors" then
 		-- 4 Color Shader
@@ -210,6 +211,10 @@ love.postshader.addEffect = function(shader, ...)
 		LOVE_POSTSHADER_SCANLINES:send("strength", args[1] or 1.0)
 		LOVE_POSTSHADER_SCANLINES:send("time", 0)
 		love.graphics.setShader(LOVE_POSTSHADER_SCANLINES)
+		love.graphics.setCanvas(LOVE_POSTSHADER_BUFFER_RENDER)
+		love.graphics.draw(LOVE_POSTSHADER_BUFFER_BACK)
+		love.graphics.setShader()
+		love.graphics.setCanvas(LOVE_POSTSHADER_BUFFER_BACK)
 		love.graphics.draw(LOVE_POSTSHADER_BUFFER_RENDER)
 	elseif shader == "tiltshift" then
 		-- Blur Shader

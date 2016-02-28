@@ -129,15 +129,16 @@ function love.draw()
         love2fight.gameInterface:draw()
     end
 
-	timeleft = love.timer.getTime()
+	timeleft = math.max(fighter1.damaged, fighter2.damaged) * 3
 	
+	love.postshader.addEffect("4colors")
 	love.postshader.addEffect("chromatic",
-		math.sin(love.timer.getTime()*5) * math.pow(timeleft, 8) * 8,
-		math.sin(love.timer.getTime()*4) * math.pow(timeleft, 8) * 3,
-		math.sin(love.timer.getTime()*3) * math.pow(timeleft, 8) * 5,
-		math.cos(love.timer.getTime()*7) * math.pow(timeleft, 8) * 3,
-		math.cos(love.timer.getTime()*4) * math.pow(timeleft, 8) * -5,
-		math.sin(love.timer.getTime()*9) * math.pow(timeleft, 8) * 7
+		math.sin(love.timer.getTime()*5) * timeleft,
+		math.sin(love.timer.getTime()*4) * timeleft,
+		math.sin(love.timer.getTime()*3) * timeleft,
+		math.cos(love.timer.getTime()*7) * timeleft,
+		math.cos(love.timer.getTime()*4) * timeleft,
+		math.sin(love.timer.getTime()*9) * timeleft
 	)
 	
 	--love.postshader.addEffect("bloom", 2, 2)
