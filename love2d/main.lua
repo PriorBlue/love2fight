@@ -3,8 +3,11 @@ require('background')
 require('clouds')
 require('fighter')
 require("gameInterface")
+require("mainMenu")
 require("physicElements")
 require("camera")
+
+love2fight = {}
 
 function love.load()
  
@@ -21,8 +24,6 @@ function love.load()
   clouds = {cloud1, cloud2, cloud3, cloud4, cloud5}
   backgrounds = {background, castel, street}
  
-	love2fight = {}
-
 	phyWorld = love.physics.newWorld(0, 9.81 * 64)
 	phyWorld:setCallbacks(beginContact, endContact, preSolve, postSolve)
 
@@ -37,7 +38,10 @@ function love.load()
 	fighter1 = loadFighter("data/fighter01.lua", love.graphics.getWidth() * 0.25, love.graphics.getHeight() - 80)
 	fighter2 = loadFighter("data/fighter02.lua", love.graphics.getWidth() * 0.75, love.graphics.getHeight() - 80)
     love2fight.gameInterface = GameInterface:new(fighter1.getHealth, fighter2.getHealth)
-	
+	love2fight.mainMenu = MainMenu:new()
+	love2fight.gameModes = {"mainMenu", "selectionScreen", "inGame", "fightEnd", "credits"}
+	-- set game mode to ingame/3 for testing, later it should be mainMenu/1
+	love2fight.currentGameMode = love2fight.gameModes[3]
 	camera = createCamera({fighter1, fighter2})
   
   sfx = love.audio.newSource("sfx/321fight.mp3", "static")
@@ -103,12 +107,19 @@ function love.draw()
 	love.graphics.setColor(255, 255, 255)
 
 	camera.untrans()
-	love2fight.gameInterface:draw()
+    if love2fight.currentGameMode == love2fight.gameModes[1] then
+    	love2fight.mainMenu:draw()
+    elseif love2fight.currentGameMode == love2fight.gameModes[3] then
+        love2fight.gameInterface:draw()
+    end
 end
 
 function love.keypressed(key)
     if key == "escape" then
         love.event.quit(0)
+    end
+    if love2fight.currentGameMode == love2fight.gameModes[1] then
+        love2fight.mainMenu:keypressed(key)
     end
 end
 

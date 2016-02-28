@@ -92,9 +92,6 @@ function createFighter(data)
 	end
 
 	obj.getHealth = function()
-	    if obj.health > 0 then
-	        obj.health = obj.health - 0.1
-	    end
 	    return obj.health
 	end
 	return obj
