@@ -71,7 +71,7 @@ function createFighter(data)
 		local x, y = obj.body:getLinearVelocity()
 	
 
-		if love.keyboard.isDown(obj.controls.attack) then
+		if love.keyboard.isDown(obj.controls.attack) or joyAttack then
 			if obj.attack == false and obj.attackTimer == 0 then
 				local coll = phyWorld:getContactList()
 				
@@ -103,6 +103,7 @@ function createFighter(data)
      
     if joystick then
         directionX, directionY, joyLt, rxDirectionX, rxDirectionY, joyRt = joystick:getAxes( )
+        joyAttack = joystick:isGamepadDown("a")
       if not directionX then
         directionX=0
       end
@@ -137,7 +138,7 @@ function createFighter(data)
 		x, y = obj.body:getLinearVelocity()
 
     obj.body:setLinearVelocity(obj.speed * directionX, y)
- 
+
 		if obj.jumpTime < obj.jumpDelay then
 			if directionY < -0.2 then
 				obj.body:setLinearVelocity(x, -obj.jumpStrength)
