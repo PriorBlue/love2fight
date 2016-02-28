@@ -12,6 +12,8 @@ function createFighter(data)
 	obj.x = data.x or 0
 	obj.y = data.y or 0
 	obj.speed = data.speed or 100
+	obj.attackTimer = 0
+	obj.damaged = 0
 	obj.jumpStrength = data.jumpStrength or 100
 	obj.jumpDelay = data.jumpDelay or 1
 	obj.jumpTime = 0
@@ -25,6 +27,7 @@ function createFighter(data)
 		up = "w",
 		down = "s",
 	}
+
 	obj.img = love.graphics.newImage(data.img)
 	obj.shadow = love.graphics.newImage(data.shadow)
 	obj.scale = data.scale
@@ -32,12 +35,22 @@ function createFighter(data)
 	obj.height = obj.img:getHeight() * obj.scale
 	obj.body = love.physics.newBody(phyWorld, obj.x, obj.y, "dynamic")
 	obj.body:setFixedRotation(true)
-	obj.shape = love.physics.newRectangleShape(obj.width, obj.height)
+	obj.shape = love.physics.newRectangleShape(obj.width * 0.5, obj.height)
 	obj.fixture = love.physics.newFixture(obj.body, obj.shape)
 	obj.fixture:setFriction(0)
 	obj.fixture:setUserData("Fighter")
 
-	obj.update = function(dt)
+	obj.body_hand = love.physics.newBody(phyWorld, obj.x, obj.y + 32 * obj.scale, "dynamic")
+	obj.body_hand:setFixedRotation(true)
+	obj.shape_hand = love.physics.newRectangleShape(336 * obj.scale, 64 * obj.scale)
+	obj.fixture_hand = love.physics.newFixture(obj.body_hand, obj.shape_hand)
+	obj.fixture_hand:setFriction(0)
+	obj.fixture_hand:setSensor(true)
+	obj.fixture_hand:setUserData("Weapon")
+
+	obj.joint = love.physics.newWeldJoint( obj.body, obj.body_hand, 0, 0, false)
+
+	obj.update = function(dt, fighter)
 		local x, y = obj.body:getLinearVelocity()
 
 		if love.keyboard.isDown(obj.controls.left) then
@@ -47,6 +60,31 @@ function createFighter(data)
 		else
 			obj.body:setLinearVelocity(0, y)
 		end
+		
+		if love.keyboard.isDown(obj.controls.attack) and obj.attackTimer <= 0 then
+			local coll = phyWorld:getContactList()
+			
+			for k, v in pairs(coll) do
+				local a, b = v:getFixtures()
+				
+				if a:getUserData() == "Weapon" and a == obj.fixture_hand then
+					if b:getUserData() == "Fighter" then
+						fighter.health = fighter.health - 1
+						fighter.damaged = 1
+					end
+				elseif b:getUserData() == "Weapon" and b == obj.fixture_hand then
+					if a:getUserData() == "Fighter" then
+						fighter.health = fighter.health - 1
+						fighter.damaged = 1
+					end
+				end
+			end
+
+			obj.attackTimer = 0.2
+		end
+		
+		obj.attackTimer = math.max(0, obj.attackTimer - dt)
+		obj.damaged = math.max(0, obj.damaged - dt)
 
 		x, y = obj.body:getLinearVelocity()
 
@@ -75,11 +113,13 @@ function createFighter(data)
 	obj.draw = function(x)
 		local flip = (x > obj.x and -1 or 1)
 		
-		love.graphics.setColor(255, 255, 255, obj.y * 0.5)		
+		love.graphics.setColor(255, 255, 255, obj.y * 0.5)	
 		love.graphics.draw(obj.shadow, obj.body:getX(), love.graphics.getHeight() - 16 / obj.scale, 0, obj.scale * flip, obj.scale, obj.width * 0.5, obj.height * 0.5)
 		
-		love.graphics.setColor(unpack(obj.color))
-		love.graphics.draw(obj.img, obj.body:getX(), obj.body:getY(), 0, obj.scale * flip, obj.scale, obj.width * 0.5, obj.height * 0.5)
+		love.graphics.setColor(obj.color[1], obj.color[2] * (1-obj.damaged), obj.color[3] * (1-obj.damaged))
+		love.graphics.draw(obj.img, obj.body:getX(), obj.body:getY(), -obj.body:getAngle(), obj.scale * flip, obj.scale, obj.img:getWidth() * 0.5, obj.img:getHeight() * 0.5)
+		
+		--love.graphics.polygon("fill", obj.body_hand:getWorldPoints(obj.shape_hand:getPoints()))
 		
 		love.graphics.setColor(255, 255, 255)
 	end
@@ -92,10 +132,8 @@ function createFighter(data)
 	end
 
 	obj.getHealth = function()
-	    if obj.health > 0 then
-	        obj.health = obj.health - 0.1
-	    end
 	    return obj.health
 	end
+
 	return obj
 end

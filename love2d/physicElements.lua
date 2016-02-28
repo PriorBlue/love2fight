@@ -24,7 +24,7 @@ function createPhysicsCircle(x, y, radius, typ)
 	obj.fixture = love.physics.newFixture(obj.body, obj.shape)
 	obj.fixture:setRestitution(1)
 	obj.fixture:setFriction(0)
-	
+
 	obj.draw = function()
 		love.graphics.circle("fill", obj.body:getX(), obj.body:getY(), obj.shape:getRadius())
 	end
