@@ -1,8 +1,8 @@
 return {
-	scale = 0.5,
+	scale = 0.75,
 	height = 64,
 	speed = 200,
-	jumpStrength = 800,
+	jumpStrength = 1000,
 	jumpDelay = 0.3,
 	health = 100,
 	lifes = 2,

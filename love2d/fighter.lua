@@ -14,6 +14,7 @@ function createFighter(data)
 	obj.speed = data.speed or 100
 	obj.attackTimer = 0
 	obj.damaged = 0
+	obj.attack = false
 	obj.jumpStrength = data.jumpStrength or 100
 	obj.jumpDelay = data.jumpDelay or 1
 	obj.jumpTime = 0
@@ -61,26 +62,31 @@ function createFighter(data)
 			obj.body:setLinearVelocity(0, y)
 		end
 		
-		if love.keyboard.isDown(obj.controls.attack) and obj.attackTimer <= 0 then
-			local coll = phyWorld:getContactList()
-			
-			for k, v in pairs(coll) do
-				local a, b = v:getFixtures()
+		if love.keyboard.isDown(obj.controls.attack) then
+			if obj.attack == false and obj.attackTimer == 0 then
+				local coll = phyWorld:getContactList()
 				
-				if a:getUserData() == "Weapon" and a == obj.fixture_hand then
-					if b:getUserData() == "Fighter" then
-						fighter.health = fighter.health - 1
-						fighter.damaged = 1
-					end
-				elseif b:getUserData() == "Weapon" and b == obj.fixture_hand then
-					if a:getUserData() == "Fighter" then
-						fighter.health = fighter.health - 1
-						fighter.damaged = 1
+				for k, v in pairs(coll) do
+					local a, b = v:getFixtures()
+					
+					if a:getUserData() == "Weapon" and a == obj.fixture_hand then
+						if b:getUserData() == "Fighter" then
+							fighter.health = fighter.health - 7
+							fighter.damaged = 1
+						end
+					elseif b:getUserData() == "Weapon" and b == obj.fixture_hand then
+						if a:getUserData() == "Fighter" then
+							fighter.health = fighter.health - 7
+							fighter.damaged = 1
+						end
 					end
 				end
+				
+				obj.attack = true
+				obj.attackTimer = 0.5
 			end
-
-			obj.attackTimer = 0.2
+		else
+			obj.attack = false
 		end
 		
 		obj.attackTimer = math.max(0, obj.attackTimer - dt)
@@ -114,7 +120,7 @@ function createFighter(data)
 		local flip = (x > obj.x and -1 or 1)
 		
 		love.graphics.setColor(255, 255, 255, obj.y * 0.5)	
-		love.graphics.draw(obj.shadow, obj.body:getX(), love.graphics.getHeight() - 16 / obj.scale, 0, obj.scale * flip, obj.scale, obj.width * 0.5, obj.height * 0.5)
+		love.graphics.draw(obj.shadow, obj.body:getX(), love.graphics.getHeight() - 64, 0, obj.scale * flip, obj.scale, obj.shadow:getWidth() * 0.5, obj.shadow:getHeight() * 0.5)
 		
 		love.graphics.setColor(obj.color[1], obj.color[2] * (1-obj.damaged), obj.color[3] * (1-obj.damaged))
 		love.graphics.draw(obj.img, obj.body:getX(), obj.body:getY(), -obj.body:getAngle(), obj.scale * flip, obj.scale, obj.img:getWidth() * 0.5, obj.img:getHeight() * 0.5)
