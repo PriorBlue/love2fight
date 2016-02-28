@@ -146,8 +146,32 @@ function createFighter(data)
 				end
 				
 				obj.attack = true
-				obj.animationStatus = 3
+				obj.animationStatus = 2
 				obj.attackTimer = 0.5
+			end
+        elseif love.keyboard.isDown(obj.controls.attack2) or joyAttack2 then
+			if obj.attack == false and obj.attackTimer == 0 then
+				local coll = phyWorld:getContactList()
+				
+				for k, v in pairs(coll) do
+					local a, b = v:getFixtures()
+					
+					if a:getUserData() == "Weapon" and a == obj.fixture_hand then
+						if b:getUserData() == "Fighter" then
+							fighter.health = fighter.health - 15
+							fighter.damaged = 1
+						end
+					elseif b:getUserData() == "Weapon" and b == obj.fixture_hand then
+						if a:getUserData() == "Fighter" then
+							fighter.health = fighter.health - 15
+							fighter.damaged = 1
+						end
+					end
+				end
+				
+				obj.attack = true
+				obj.animationStatus = 3
+				obj.attackTimer = 1.1
 			end
 		else
 			obj.attack = false

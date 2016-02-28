@@ -14,6 +14,7 @@ return {
 		up = "w",
 		down = "s",
 		attack = "e",
+		attack2 = "q",
 	},
 	img = "gfx/crab_02.png",
 	moveImage = "gfx/crab_walk.png",
