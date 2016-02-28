@@ -16,6 +16,9 @@ return {
 		attack = "e",
 	},
 	img = "gfx/crab_02.png",
-	spriteBatchImage = "gfx/crab_walk.png",
+	moveImage = "gfx/crab_walk.png",
+	lAttackImage = "gfx/crab_light.png",
+	hAttackImage = "gfx/crab_heavy.png",
+	hitImage = "gfx/crab_hit.png",
 	shadow = "gfx/shadow.png",
 }
