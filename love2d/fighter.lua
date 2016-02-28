@@ -53,9 +53,6 @@ function createFighter(data)
 	obj.fixture:setFriction(0)
 	obj.fixture:setUserData("Fighter")
 
-	obj.update = function(dt, fighter, joystick)
-		local x, y = obj.body:getLinearVelocity()
-
  
 	obj.body_hand = love.physics.newBody(phyWorld, obj.x, obj.y + 32 * obj.scale, "dynamic")
 	obj.body_hand:setFixedRotation(true)
@@ -67,6 +64,9 @@ function createFighter(data)
 
 	obj.joint = love.physics.newWeldJoint( obj.body, obj.body_hand, 0, 0, false)
 
+
+	obj.update = function(dt, fighter, joystick)
+		local x, y = obj.body:getLinearVelocity()
 		if love.keyboard.isDown(obj.controls.left) then
 	        obj.updateWalkCycle(dt)
 			obj.body:setLinearVelocity(-obj.speed, y)
@@ -188,7 +188,8 @@ function createFighter(data)
 		
 		love.graphics.setColor(obj.color[1], obj.color[2] * (1-obj.damaged), obj.color[3] * (1-obj.damaged))
 		love.graphics.draw(obj.newImg, obj.spriteQuad, obj.body:getX(), obj.body:getY(), -obj.body:getAngle(), obj.scale * flip, obj.scale, obj.img:getWidth() * 0.5, obj.img:getHeight() * 0.5)
-		--love.graphics.polygon("fill", obj.body_hand:getWorldPoints(obj.shape_hand:getPoints()))
+		
+		--love.graphics.polygon("fill", obj.body:getWorldPoints(obj.shape:getPoints()))
 		
 		love.graphics.setColor(255, 255, 255)
 	end
