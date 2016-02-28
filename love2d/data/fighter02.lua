@@ -7,6 +7,7 @@ return {
 	health = 100,
 	lifes = 2,
 	color = {255, 127, 191},
+   pitch = 20,
 	controls = {
 		left = "j",
 		right = "l",
