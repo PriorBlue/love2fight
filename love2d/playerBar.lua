@@ -4,9 +4,10 @@ class "PlayerBar" {
     
 }
 
-function PlayerBar:__init(isPlayerOne, maxhealth, xPos, yPos, width, height)
-    self.maxHealth   = 100
-    self.health      = 90
+function PlayerBar:__init(isPlayerOne, healthFunction, xPos, yPos, width, height)
+    self.maxHealth   = healthFunction()
+    self.health      = healthFunction()
+    self.healthFunction = healthFunction
    
     self.xPos        = xPos
     self.yPos        = yPos
@@ -55,24 +56,14 @@ function PlayerBar:draw()
     g.setColor(oldr,oldg,oldb,olda)
 end
 
-function PlayerBar:update(dt,newHealth)
-    
-    if newHealth < self.health then 
-        self.health = newHealth
-                   
-        self.xPosDamageBar = xPosHealth  --Backup old xPos
-        
-            
-        
-    else
-        self.health  = newHealth
-    end
-
-    --Start the the fading timer
-
+function PlayerBar:replaceHealth(newHealthFunction)
+    self.healthFunction = newHealthFunction
 end
 
-function PlayerBar:calculateirgendwas()
-
+function PlayerBar:update(dt)
+    self.health = self.healthFunction()
+    if self.health < 0 then
+        self.health = 0
+    end
 end
 
