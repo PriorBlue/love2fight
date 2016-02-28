@@ -13,24 +13,28 @@ beachmode = false
 
 function love.load()
  
-  background = createBackground(0,0, 'gfx/back01.png', 2, true,  love.graphics.getWidth(),  love.graphics.getHeight())   
-  castel = createBackground(love.graphics.getWidth() - love.graphics.getWidth()/2 +25 ,love.graphics.getHeight()-love.graphics.getHeight()/2 - 50 , 'gfx/castel01.png', 4) 
-  street = createBackground(0, love.graphics.getHeight()- 270 , 'gfx/beach-background.png', 10, true, love.graphics.getWidth() ) 
+  background = createBackground(0,0, 'gfx/beach-level-sky.png', 2, true,  love.graphics.getWidth(),  love.graphics.getHeight(), true) 
   
-  cloud1= createBackground(10,50 , 'gfx/cloud.png', 3)
-  cloud2= createBackground(150,90 , 'gfx/cloud.png', 3)
-  cloud3= createBackground(300,30 , 'gfx/cloud.png', 3)
-  cloud4= createBackground(500,70 , 'gfx/cloud.png', 3)
-  cloud5= createBackground(800,10 , 'gfx/cloud.png', 3)
+  cloud1= createBackground(-400,10 , 'gfx/cloud1.png', 3)
+  cloud2= createBackground(-150,150 , 'gfx/cloud2.png', 3)
+  cloud3= createBackground(100,30 , 'gfx/cloud3.png', 3)
+  cloud4= createBackground(400,100 , 'gfx/cloud4.png', 3)
+  cloud5= createBackground(700,10 , 'gfx/cloud5.png', 3)  
+  cloud5= createBackground(900,200 , 'gfx/cloud6.png', 3)
+  
+  backed = createBackground(500, love.graphics.getHeight()- 650 , 'gfx/beach-level-2.png', 2) 
+  castel = createBackground(-450, love.graphics.getHeight()- 700 , 'gfx/beach-level-3.png', 4)   
+
+  street = createBackground(0, love.graphics.getHeight()- 270 , 'gfx/beach-level-1.png', 10, true, love.graphics.getWidth() ) 
 
   clouds = {cloud1, cloud2, cloud3, cloud4, cloud5}
-  backgrounds = {background, castel, street}
+  backgrounds = {backed, castel, street}
  
 	phyWorld = love.physics.newWorld(0, 9.81 * 64)
 	phyWorld:setCallbacks(beginContact, endContact, preSolve, postSolve)
 
 	createPhysicsBox(love.graphics.getWidth() * 0.5, love.graphics.getHeight(), love.graphics.getWidth() * 10, 128)
-	createPhysicsBox(0, -16, love.graphics.getWidth() * 10, 32)
+	createPhysicsBox(0, -306, love.graphics.getWidth() * 10, 32)
 	border1 = createPhysicsBox(0, 300, 32, 12000)
 	border2 = createPhysicsBox(love.graphics.getWidth(), 300, 32, 12000)
 	border3 = createPhysicsBox(love.graphics.getWidth() * 0.5, love.graphics.getHeight(), 32, love.graphics.getHeight())
@@ -99,12 +103,14 @@ function love.draw()
 
 	love.graphics.setColor(255, 255, 255)
 	local i=0
+  background.draw()
+  for k,v in pairs (clouds) do
+    v.draw()
+	end
 	for k,v in pairs (backgrounds) do
-	v.draw()
+    v.draw()
 	end
-	for k,v in pairs (clouds) do
-	v.draw()
-	end
+
 
 	camera.trans()
 	fighter1.draw(fighter2.x)
