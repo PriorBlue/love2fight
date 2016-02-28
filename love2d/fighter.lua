@@ -66,16 +66,6 @@ function createFighter(data)
 	obj.fixture_hand:setUserData("Weapon")
 
 	obj.joint = love.physics.newWeldJoint( obj.body, obj.body_hand, 0, 0, false)
-
-		if love.keyboard.isDown(obj.controls.left) then
-	        obj.updateWalkCycle(dt)
-			obj.body:setLinearVelocity(-obj.speed, y)
-		elseif love.keyboard.isDown(obj.controls.right) then
-	        obj.updateWalkCycle(dt)
-			obj.body:setLinearVelocity(obj.speed, y)
-		else
-			obj.body:setLinearVelocity(0, y)
-		end
 		
 		if love.keyboard.isDown(obj.controls.attack) then
 			if obj.attack == false and obj.attackTimer == 0 then
@@ -117,14 +107,18 @@ function createFighter(data)
       end
       if directionX > (-0.2) and  directionX < (0.2) then
         directionX=0
+      else
+         obj.updateWalkCycle(dt)
       end
     else
       if love.keyboard.isDown(obj.controls.left) and not love.keyboard.isDown(obj.controls.right) then
 			--obj.body:setLinearVelocity(-obj.speed, y)
       directionX = -1
+       obj.updateWalkCycle(dt)
       elseif love.keyboard.isDown(obj.controls.right)and not love.keyboard.isDown(obj.controls.left) then
         --obj.body:setLinearVelocity(obj.speed, y)
         directionX = 1
+         obj.updateWalkCycle(dt)
       else
         obj.body:setLinearVelocity(0, y)
         directionX=0
