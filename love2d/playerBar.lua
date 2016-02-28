@@ -41,6 +41,10 @@ function PlayerBar:draw()
     g.setColor(oldr,oldg,oldb,olda)
 end
 
+function PlayerBar:replaceHealth(newHealthFunction)
+    self.healthFunction = newHealthFunction
+end
+
 function PlayerBar:update(dt)
     self.health = self.healthFunction()
     if self.health < 0 then
