@@ -170,7 +170,6 @@ function createFighter(data)
 	obj.updateWalkCycle = function(dt)
 	    obj.lastUpdate = obj.lastUpdate + dt
 	    if obj.lastUpdate > obj.animationFrequency then
-	        print(dt - obj.lastUpdate)
 	        obj.lastUpdate = 0
             if obj.currentSpriteImgID < 4 then
                 obj.currentSpriteImgID = obj.currentSpriteImgID + 1
