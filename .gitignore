@@ -1,2 +1,3 @@
 # ignore temp files from text editors
 *~
+/.project
