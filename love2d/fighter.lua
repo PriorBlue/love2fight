@@ -321,7 +321,7 @@ function createFighter(data)
             if obj.lastMoveUpdate > obj.moveAnimationFrequency then
                 sfxLoopWalk = love.audio.newSource("sfx/crab.wav", "static")
                 --sfxLoopWalk = love.audio.newSource("sfx/crab.wav")
-                sfxLoopWalk:setVolume(0.3)
+                sfxLoopWalk:setVolume(0.5)
                 sfxLoopWalk:setLooping(false)
                 pitch = (obj.pitch)
                 if pitch == nil then
