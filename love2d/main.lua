@@ -49,8 +49,6 @@ function love.load()
   sfx1=sfx
   love.audio.play(sfx1)
   
-
-
   
   sfxLoopMusic = love.audio.newSource("sfx/Brandon_Liew_-_03_-_Fight_Action.mp3", "stream")
   sfxLoopMusic:setVolume(0.3)
@@ -62,13 +60,16 @@ function love.load()
   sfxLoopWater:setLooping( true )
   love.audio.play(sfxLoopWater)
   
-
-
+  joysticks = love.joystick.getJoysticks()
+  print (joysticks[1])
+ 
 end
 
 function love.update(dt)
-	fighter1.update(dt, fighter2)
-	fighter2.update(dt, fighter1)
+
+	fighter1.update(dt, fighter2, joysticks[1])
+	fighter2.update(dt, fighter1, joysticks[2])
+
 	camera.update(dt)
 	phyWorld:update(dt)
 	love2fight.gameInterface:update(dt)
@@ -107,11 +108,15 @@ function love.draw()
 	love.graphics.setColor(255, 255, 255)
 
 	camera.untrans()
+
+	love2fight.gameInterface:draw()
+  
     if love2fight.currentGameMode == love2fight.gameModes[1] then
     	love2fight.mainMenu:draw()
     elseif love2fight.currentGameMode == love2fight.gameModes[3] then
         love2fight.gameInterface:draw()
     end
+
 end
 
 function love.keypressed(key)
