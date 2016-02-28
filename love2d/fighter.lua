@@ -163,6 +163,11 @@ function createFighter(data)
 	end
 	
 	obj.updateWalkCycle = function(dt)
+    sfxLoopWalk = love.audio.newSource("sfx/crab.wav")
+    sfxLoopWalk:setVolume(0.8)
+    sfxLoopWalk:setLooping( false )
+    love.audio.play(sfxLoopWalk)
+  
 	    obj.lastUpdate = obj.lastUpdate + dt
 	    if obj.lastUpdate > obj.animationFrequency then
 	        obj.lastUpdate = 0
