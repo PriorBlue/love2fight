@@ -18,6 +18,7 @@ return {
 	},
 	img = "gfx/crab_02.png",
 	moveImage = "gfx/crab_walk.png",
+	idleImage = "gfx/crab_idle.png",
 	lAttackImage = "gfx/crab_light.png",
 	hAttackImage = "gfx/crab_heavy.png",
 	hitImage = "gfx/crab_hit.png",

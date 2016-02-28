@@ -30,6 +30,21 @@ function createFighter(data)
 	}
 	obj.pitch = data.pitch
 
+	-- idle animation
+    obj.idleImg = love.graphics.newImage(data.idleImage)
+    obj.idleImg:setWrap("repeat","repeat")
+    local batchSizeX, batchSizeY = obj.idleImg:getDimensions()
+    obj.quadSizeX, obj.quadSizeY = batchSizeX / 4, batchSizeY / 2
+    obj.idleSpriteQuad = love.graphics.newQuad(0, 0, obj.quadSizeX, obj.quadSizeY, obj.idleImg:getDimensions())
+    obj.idleImgPositions = {}
+    for i = 1, 12 do
+        obj.idleImgPositions[i] = {((i-1)%4)*obj.quadSizeX, ((i-1)/4 - (i-1)/4%1) * obj.quadSizeY}
+    end
+    obj.idleSpriteImgID = 1
+    obj.lastIdleUpdate = 0
+    obj.idleAnimationFrequency = 1/((data.speed/10) / data.scale)
+    -- end of the idle animation
+    
     -- move animation
     obj.moveImg = love.graphics.newImage(data.moveImage)
     obj.moveImg:setWrap("repeat","repeat")
@@ -187,37 +202,35 @@ function createFighter(data)
         obj.controls.jayAttack = joystick:isGamepadDown("a")             
         obj.controls.jayAttack2 = joystick:isGamepadDown("b")     
 
-
-      if not directionX then
-        directionX=0
-      end
-      if not directionY then
-        directionY=0
-      end
-      if directionX > (-0.2) and  directionX < (0.2) then
-        directionX=0
-      else
-         obj.animationStatus = 1
-      end
+        if not directionX then
+            directionX=0
+        end
+        if not directionY then
+            directionY=0
+        end
+        if directionX > (-0.2) and  directionX < (0.2) then
+            directionX=0
+             obj.animationStatus = 1
+        end
     else
-      if love.keyboard.isDown(obj.controls.left) and not love.keyboard.isDown(obj.controls.right) then
+        if love.keyboard.isDown(obj.controls.left) and not love.keyboard.isDown(obj.controls.right) then
 			--obj.body:setLinearVelocity(-obj.speed, y)
-      directionX = -1
-       obj.animationStatus = 1
-      elseif love.keyboard.isDown(obj.controls.right)and not love.keyboard.isDown(obj.controls.left) then
-        --obj.body:setLinearVelocity(obj.speed, y)
-        directionX = 1
-         obj.animationStatus = 1
-      else
-        obj.body:setLinearVelocity(0, y)
-        directionX=0
-      end
+			directionX = -1
+			obj.animationStatus = 1
+        elseif love.keyboard.isDown(obj.controls.right)and not love.keyboard.isDown(obj.controls.left) then
+            --obj.body:setLinearVelocity(obj.speed, y)
+            directionX = 1
+            obj.animationStatus = 1
+        else
+            obj.body:setLinearVelocity(0, y)
+            directionX=0
+        end
       
-      if love.keyboard.isDown(obj.controls.up) then
-        directionY = -1
-      else  
-        directionY = 0
-      end
+        if love.keyboard.isDown(obj.controls.up) then
+            directionY = -1
+        else  
+            directionY = 0
+        end
     end
 		x, y = obj.body:getLinearVelocity()
 
@@ -341,8 +354,21 @@ function createFighter(data)
                 obj.moveSpriteQuad:setViewport(positions[1],positions[2],obj.quadSizeX, obj.quadSizeY)
                 obj.animationStatus = 0
             end
+            obj.lastMoveUpdate = obj.lastMoveUpdate + dt
+        elseif obj.animationStatus == 0 then
+            if obj.lastIdleUpdate > obj.idleAnimationFrequency then
+                obj.lastIdleUpdate = 0
+                --continue idle animation
+                if obj.idleSpriteImgID < 12 then
+                    obj.idleSpriteImgID = obj.idleSpriteImgID + 1
+                else
+                    obj.idleSpriteImgID = 1
+                end
+                local positions = obj.idleImgPositions[obj.idleSpriteImgID]
+                obj.idleSpriteQuad:setViewport(positions[1],positions[2],obj.quadSizeX, obj.quadSizeY)
+            end
+            obj.lastIdleUpdate = obj.lastIdleUpdate + dt
         end
-        obj.lastMoveUpdate = obj.lastMoveUpdate + dt
 	end
 
 	obj.draw = function(x)
@@ -358,8 +384,10 @@ function createFighter(data)
             love.graphics.draw(obj.heavyAttackImg, obj.hAttackSpriteQuad, obj.body:getX(), obj.body:getY(), -obj.body:getAngle(), obj.scale * flip, obj.scale, obj.img:getWidth() * 0.5, obj.img:getHeight() * 0.5)
 		elseif obj.animationStatus == 2 then
             love.graphics.draw(obj.lightAttackImg, obj.lAttackSpriteQuad, obj.body:getX(), obj.body:getY(), -obj.body:getAngle(), obj.scale * flip, obj.scale, obj.img:getWidth() * 0.5, obj.img:getHeight() * 0.5)
-        else
+        elseif obj.animationStatus == 1 then
 		    love.graphics.draw(obj.moveImg, obj.moveSpriteQuad, obj.body:getX(), obj.body:getY(), -obj.body:getAngle(), obj.scale * flip, obj.scale, obj.img:getWidth() * 0.5, obj.img:getHeight() * 0.5)
+        else
+            love.graphics.draw(obj.idleImg, obj.idleSpriteQuad, obj.body:getX(), obj.body:getY(), -obj.body:getAngle(), obj.scale * flip, obj.scale, obj.img:getWidth() * 0.5, obj.img:getHeight() * 0.5)
         end
 		
 		--love.graphics.polygon("fill", obj.body:getWorldPoints(obj.shape:getPoints()))
