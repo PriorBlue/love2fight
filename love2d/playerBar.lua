@@ -40,6 +40,40 @@ function PlayerBar:draw()
     PlayerBar.drawHealthbarBackground(self)
     PlayerBar.drawHealthBar(self)
     PlayerBar.drawHealthDamageBar(self)
+
+    --TODO
+    --Calculate Positions
+    
+    --interface
+    local interfaceWidth   = 800
+    local interfaceHeight  = 600
+    local interfaceXPos    = 0
+    local interfaceYPos    = 30  
+    local spaceForTime     = 100
+    local borderSpace      = 10;
+    
+    --Player Both
+    local healthbarWidth = (interfaceWidth / 2) - (spaceForTime / 2) - borderSpace 
+    local healthbarHeight =  30
+
+    --Player1 Healthbar (left)
+    local healthbarP1XPos = interfaceXPos
+    local healthbarP1YPos = interfaceYPos
+    
+    --Player2 Healthbar (right)
+    local healthbarP2XPos = (interfaceWidth/2) + (spaceForTime / 2) + borderSpace     
+    local healthbarP2YPos = interfaceYPos 
+
+    -- draw P1 health bar
+    if self.isPlayerOne then
+        g.setColor(0,255,0,200)
+        g.rectangle("fill", healthbarP1XPos, healthbarP1YPos, healthbarWidth, healthbarHeight) 
+    else  
+    -- draw P2 health bar
+        g.setColor(0,0,255,200)
+        g.rectangle("fill", healthbarP2XPos, healthbarP2YPos, healthbarWidth, healthbarHeight)
+       
+    end
     
     g.setColor(oldr,oldg,oldb,olda)
 end
