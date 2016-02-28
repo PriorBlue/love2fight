@@ -1,4 +1,5 @@
 require('lib/32linesofgoodness')
+require("lib/postshader")
 require('background')
 require('clouds')
 require('fighter')
@@ -92,6 +93,8 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.postshader.setBuffer("render")
+
 	love.graphics.setColor(255, 255, 255)
 	local i=0
 	for k,v in pairs (backgrounds) do
@@ -123,6 +126,21 @@ function love.draw()
     elseif love2fight.currentGameMode == love2fight.gameModes[3] then
         love2fight.gameInterface:draw()
     end
+
+	timeleft = love.timer.getTime()
+	
+	love.postshader.addEffect("chromatic",
+		math.sin(love.timer.getTime()*5) * math.pow(timeleft, 8) * 8,
+		math.sin(love.timer.getTime()*4) * math.pow(timeleft, 8) * 3,
+		math.sin(love.timer.getTime()*3) * math.pow(timeleft, 8) * 5,
+		math.cos(love.timer.getTime()*7) * math.pow(timeleft, 8) * 3,
+		math.cos(love.timer.getTime()*4) * math.pow(timeleft, 8) * -5,
+		math.sin(love.timer.getTime()*9) * math.pow(timeleft, 8) * 7
+	)
+	
+	--love.postshader.addEffect("bloom", 2, 2)
+	love.postshader.addEffect("scanlines")
+	love.postshader.draw()
 end
 
 function love.keypressed(key)
@@ -137,7 +155,8 @@ end
 function love.keyreleased(key)
 	if key == "b" then
 		beachmode = not beachmode
-		ball.body:setPosition(love.graphics.getWidth() * 0.5 + math.random(-8, 8), 0)
+		ball.body:setPosition(love.graphics.getWidth() * 0.5 + math.random(-8, 8), 64)
+		ball.body:setLinearVelocity(0, 0)
 		ball.fixture:setSensor(not beachmode)
 		border3.fixture:setSensor(not beachmode)
 		border4.fixture:setSensor(not beachmode)
