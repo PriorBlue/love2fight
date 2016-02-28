@@ -9,5 +9,25 @@ function createPhysicsBox(x, y, width, height)
 	obj.shape = love.physics.newRectangleShape(obj.width, obj.height)
 	obj.fixture = love.physics.newFixture(obj.body, obj.shape)
 
+	obj.draw = function()
+		love.graphics.polygon("fill", obj.body:getWorldPoints(obj.shape:getPoints()))
+	end
+
+	return obj
+end
+
+function createPhysicsCircle(x, y, radius, typ)
+	local obj = {}
+
+	obj.body = love.physics.newBody(phyWorld, x, y, typ or "dynamic")
+	obj.shape = love.physics.newCircleShape(radius)
+	obj.fixture = love.physics.newFixture(obj.body, obj.shape)
+	obj.fixture:setRestitution(1)
+	obj.fixture:setFriction(0)
+	
+	obj.draw = function()
+		love.graphics.circle("fill", obj.body:getX(), obj.body:getY(), obj.shape:getRadius())
+	end
+
 	return obj
 end
