@@ -41,6 +41,9 @@ function createFighter(data)
 	    obj.spriteImgPositions[i] = {((i-1)%4)*obj.quadSizeX, batchSizeY}
     end
     obj.currentSpriteImgID = 1
+    obj.lastUpdate = 0
+	obj.animationFrequency = 1/((data.speed/10) / data.scale)
+	
 	obj.img = love.graphics.newImage(data.img)
 	obj.shadow = love.graphics.newImage(data.shadow)
 	obj.scale = data.scale
@@ -129,21 +132,21 @@ function createFighter(data)
 		obj.x = obj.body:getX()
 		obj.y = obj.body:getY()
 	end
-	obj.lastUpdate = 0
+	
 	obj.updateWalkCycle = function(dt)
-	    --TODO
-	    --if dt - obj.lastUpdate < 100 then
-	    --    return
-        --end
-        --obj.lastUpdate = dt
-	    if obj.currentSpriteImgID < 4 then
-	        obj.currentSpriteImgID = obj.currentSpriteImgID + 1
-        else
-            obj.currentSpriteImgID = 1
+	    obj.lastUpdate = obj.lastUpdate + dt
+	    if obj.lastUpdate > obj.animationFrequency then
+	        print(dt - obj.lastUpdate)
+	        obj.lastUpdate = 0
+            if obj.currentSpriteImgID < 4 then
+                obj.currentSpriteImgID = obj.currentSpriteImgID + 1
+            else
+                obj.currentSpriteImgID = 1
+            end
+            local positions = obj.spriteImgPositions[obj.currentSpriteImgID]
+            
+            obj.spriteQuad:setViewport(positions[1],positions[2],obj.quadSizeX, obj.quadSizeY)
         end
-        local positions = obj.spriteImgPositions[obj.currentSpriteImgID]
-        
-        obj.spriteQuad:setViewport(positions[1],positions[2],obj.quadSizeX, obj.quadSizeY)
 	end
 
 	obj.draw = function(x)
