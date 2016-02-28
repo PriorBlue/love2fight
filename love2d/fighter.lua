@@ -145,7 +145,6 @@ function createFighter(data)
 		x, y = obj.body:getLinearVelocity()
 
     obj.body:setLinearVelocity(obj.speed * directionX, y)
-    print (directionX)
  
 		if obj.jumpTime < obj.jumpDelay then
 			if directionY < -0.2 then

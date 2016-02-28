@@ -8,6 +8,7 @@ require("physicElements")
 require("camera")
 
 love2fight = {}
+beachmode = false
 
 function love.load()
  
@@ -34,6 +35,10 @@ function love.load()
 	border3 = createPhysicsBox(love.graphics.getWidth() * 0.5, love.graphics.getHeight(), 32, love.graphics.getHeight())
 	border4 = createPhysicsCircle(love.graphics.getWidth() * 0.5, love.graphics.getHeight() * 0.5, 16, "static")
 	ball = createPhysicsCircle(love.graphics.getWidth() * 0.5 + math.random(-8, 8), 0, 32)
+	
+	ball.fixture:setSensor(true)
+	border3.fixture:setSensor(true)
+	border4.fixture:setSensor(true)
 
 	fighter1 = loadFighter("data/fighter01.lua", love.graphics.getWidth() * 0.25, love.graphics.getHeight() - 80)
 	fighter2 = loadFighter("data/fighter02.lua", love.graphics.getWidth() * 0.75, love.graphics.getHeight() - 80)
@@ -99,24 +104,25 @@ function love.draw()
 	camera.trans()
 	fighter1.draw(fighter2.x)
 	fighter2.draw(fighter1.x)
-	
-	love.graphics.setColor(255, 255, 255)
-	ball.draw()
-	love.graphics.setColor(191, 191, 191)
-	border3.draw()
-	border4.draw()
-	love.graphics.setColor(255, 255, 255)
+
+	if beachmode then
+		love.graphics.setColor(255, 255, 255)
+		ball.draw()
+		love.graphics.setColor(191, 191, 191)
+		border3.draw()
+		border4.draw()
+		love.graphics.setColor(255, 255, 255)
+	end
 
 	camera.untrans()
 
 	love2fight.gameInterface:draw()
-  
+
     if love2fight.currentGameMode == love2fight.gameModes[1] then
     	love2fight.mainMenu:draw()
     elseif love2fight.currentGameMode == love2fight.gameModes[3] then
         love2fight.gameInterface:draw()
     end
-
 end
 
 function love.keypressed(key)
@@ -129,7 +135,13 @@ function love.keypressed(key)
 end
 
 function love.keyreleased(key)
-
+	if key == "b" then
+		beachmode = not beachmode
+		ball.body:setPosition(love.graphics.getWidth() * 0.5 + math.random(-8, 8), 0)
+		ball.fixture:setSensor(not beachmode)
+		border3.fixture:setSensor(not beachmode)
+		border4.fixture:setSensor(not beachmode)
+	end
 end
 
 function love.mousepressed(x, y, button)
