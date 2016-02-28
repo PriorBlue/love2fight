@@ -169,8 +169,7 @@ function createFighter(data)
     --sfxLoopWalk = love.audio.newSource("sfx/crab.wav")
     sfxLoopWalk:setVolume(0.3)
     sfxLoopWalk:setLooping(false)
-    pitch = 
-    print(obj.pitch)
+    pitch = (obj.pitch)
     if pitch == nil then
       pitch =10
     end

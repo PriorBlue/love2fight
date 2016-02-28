@@ -13,22 +13,24 @@ beachmode = false
 
 function love.load()
  
-  background = createBackground(0,0, 'gfx/beach-level-sky.png', 2, true,  love.graphics.getWidth(),  love.graphics.getHeight(), true) 
+  background = createBackground(0,0, 'gfx/beach-level-sky.png', 1, true,  love.graphics.getWidth(),  love.graphics.getHeight(), true) 
   
-  cloud1= createBackground(-400,10 , 'gfx/cloud1.png', 3)
-  cloud2= createBackground(-150,150 , 'gfx/cloud2.png', 3)
-  cloud3= createBackground(100,30 , 'gfx/cloud3.png', 3)
-  cloud4= createBackground(400,100 , 'gfx/cloud4.png', 3)
-  cloud5= createBackground(700,10 , 'gfx/cloud5.png', 3)  
-  cloud5= createBackground(900,200 , 'gfx/cloud6.png', 3)
+  cloud1= createBackground(-400,10 , 'gfx/cloud1.png', 2)
+  cloud2= createBackground(-150,150 , 'gfx/cloud2.png', 2)
+  cloud3= createBackground(100,30 , 'gfx/cloud3.png', 2)
+  cloud4= createBackground(400,100 , 'gfx/cloud4.png', 2)
+  cloud5= createBackground(700,10 , 'gfx/cloud5.png', 2)  
+  cloud5= createBackground(900,200 , 'gfx/cloud6.png', 2)
   
-  backed = createBackground(500, love.graphics.getHeight()- 650 , 'gfx/beach-level-2.png', 2) 
+  palm = createBackground(-450, love.graphics.getHeight()- 650 , 'gfx/beach-level-4.png', 2)   
+
+  backed = createBackground(500, love.graphics.getHeight()- 650 , 'gfx/beach-level-2.png', 3) 
   castel = createBackground(-450, love.graphics.getHeight()- 700 , 'gfx/beach-level-3.png', 4)   
 
   street = createBackground(0, love.graphics.getHeight()- 270 , 'gfx/beach-level-1.png', 10, true, love.graphics.getWidth() ) 
 
   clouds = {cloud1, cloud2, cloud3, cloud4, cloud5}
-  backgrounds = {backed, castel, street}
+  backgrounds = {palm, backed, castel, street}
  
 	phyWorld = love.physics.newWorld(0, 9.81 * 64)
 	phyWorld:setCallbacks(beginContact, endContact, preSolve, postSolve)
