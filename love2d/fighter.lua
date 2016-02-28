@@ -28,6 +28,7 @@ function createFighter(data)
 		up = "w",
 		down = "s",
 	}
+  obj.pitch = data.pitch
 	obj.newImg = love.graphics.newImage(data.spriteBatchImage)
 	obj.newImg:setWrap("repeat","repeat")
 	local batchSizeX, batchSizeY = obj.newImg:getDimensions()
@@ -164,10 +165,20 @@ function createFighter(data)
 	end
 	
 	obj.updateWalkCycle = function(dt)
-    sfxLoopWalk = love.audio.newSource("sfx/crab.wav")
-    sfxLoopWalk:setVolume(0.8)
-    sfxLoopWalk:setLooping( false )
-    love.audio.play(sfxLoopWalk)
+    sfxLoopWalk = love.audio.newSource("sfx/crab.wav", "static")
+    --sfxLoopWalk = love.audio.newSource("sfx/crab.wav")
+    sfxLoopWalk:setVolume(0.3)
+    sfxLoopWalk:setLooping(false)
+    pitch = 
+    print(obj.pitch)
+    if pitch == nil then
+      pitch =10
+    end
+    sfxLoopWalk:setPitch(pitch) -- one octave lower
+ 
+     love.audio.play(sfxLoopWalk)
+  
+    
   
 	    obj.lastUpdate = obj.lastUpdate + dt
 	    if obj.lastUpdate > obj.animationFrequency then
