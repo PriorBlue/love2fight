@@ -125,7 +125,7 @@ function createFighter(data)
             obj.hitAnimLastHealth = obj.health
         end
 
-		if love.keyboard.isDown(obj.controls.attack) or joyAttack then
+		if love.keyboard.isDown(obj.controls.attack) or obj.controls.jayAttack then
 			if obj.attack == false and obj.attackTimer == 0 then
 				local coll = phyWorld:getContactList()
 				
@@ -149,7 +149,7 @@ function createFighter(data)
 				obj.animationStatus = 2
 				obj.attackTimer = 0.5
 			end
-        elseif love.keyboard.isDown(obj.controls.attack2) or joyAttack2 then
+        elseif love.keyboard.isDown(obj.controls.attack2) or obj.controls.jayAttack2 then
 			if obj.attack == false and obj.attackTimer == 0 then
 				local coll = phyWorld:getContactList()
 				
@@ -182,7 +182,12 @@ function createFighter(data)
      
     if joystick then
         directionX, directionY, joyLt, rxDirectionX, rxDirectionY, joyRt = joystick:getAxes( )
-        joyAttack = joystick:isGamepadDown("a")
+       -- joyAttack = joystick:isGamepadDown("a")        
+        --joyAttack2 = joystick:isGamepadDown("b")
+        obj.controls.jayAttack = joystick:isGamepadDown("a")             
+        obj.controls.jayAttack2 = joystick:isGamepadDown("b")     
+
+
       if not directionX then
         directionX=0
       end
