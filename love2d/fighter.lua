@@ -41,6 +41,9 @@ function createFighter(data)
 	    obj.spriteImgPositions[i] = {((i-1)%4)*obj.quadSizeX, batchSizeY}
     end
     obj.currentSpriteImgID = 1
+    obj.lastUpdate = 0
+	obj.animationFrequency = 1/((data.speed/10) / data.scale)
+	
 	obj.img = love.graphics.newImage(data.img)
 	obj.shadow = love.graphics.newImage(data.shadow)
 	obj.scale = data.scale
@@ -53,9 +56,6 @@ function createFighter(data)
 	obj.fixture:setFriction(0)
 	obj.fixture:setUserData("Fighter")
 
-	obj.update = function(dt, fighter, joystick)
-		local x, y = obj.body:getLinearVelocity()
-
  
 	obj.body_hand = love.physics.newBody(phyWorld, obj.x, obj.y + 32 * obj.scale, "dynamic")
 	obj.body_hand:setFixedRotation(true)
@@ -66,7 +66,19 @@ function createFighter(data)
 	obj.fixture_hand:setUserData("Weapon")
 
 	obj.joint = love.physics.newWeldJoint( obj.body, obj.body_hand, 0, 0, false)
-		
+
+	obj.update = function(dt, fighter, joystick)
+		local x, y = obj.body:getLinearVelocity()
+		if love.keyboard.isDown(obj.controls.left) then
+	        obj.updateWalkCycle(dt)
+			obj.body:setLinearVelocity(-obj.speed, y)
+		elseif love.keyboard.isDown(obj.controls.right) then
+	        obj.updateWalkCycle(dt)
+			obj.body:setLinearVelocity(obj.speed, y)
+		else
+			obj.body:setLinearVelocity(0, y)
+		end
+
 		if love.keyboard.isDown(obj.controls.attack) then
 			if obj.attack == false and obj.attackTimer == 0 then
 				local coll = phyWorld:getContactList()
@@ -157,21 +169,20 @@ function createFighter(data)
 		obj.x = obj.body:getX()
 		obj.y = obj.body:getY()
 	end
-	obj.lastUpdate = 0
+	
 	obj.updateWalkCycle = function(dt)
-	    --TODO
-	    --if dt - obj.lastUpdate < 100 then
-	    --    return
-        --end
-        --obj.lastUpdate = dt
-	    if obj.currentSpriteImgID < 4 then
-	        obj.currentSpriteImgID = obj.currentSpriteImgID + 1
-        else
-            obj.currentSpriteImgID = 1
+	    obj.lastUpdate = obj.lastUpdate + dt
+	    if obj.lastUpdate > obj.animationFrequency then
+	        obj.lastUpdate = 0
+            if obj.currentSpriteImgID < 4 then
+                obj.currentSpriteImgID = obj.currentSpriteImgID + 1
+            else
+                obj.currentSpriteImgID = 1
+            end
+            local positions = obj.spriteImgPositions[obj.currentSpriteImgID]
+            
+            obj.spriteQuad:setViewport(positions[1],positions[2],obj.quadSizeX, obj.quadSizeY)
         end
-        local positions = obj.spriteImgPositions[obj.currentSpriteImgID]
-        
-        obj.spriteQuad:setViewport(positions[1],positions[2],obj.quadSizeX, obj.quadSizeY)
 	end
 
 	obj.draw = function(x)
@@ -182,7 +193,8 @@ function createFighter(data)
 		
 		love.graphics.setColor(obj.color[1], obj.color[2] * (1-obj.damaged), obj.color[3] * (1-obj.damaged))
 		love.graphics.draw(obj.newImg, obj.spriteQuad, obj.body:getX(), obj.body:getY(), -obj.body:getAngle(), obj.scale * flip, obj.scale, obj.img:getWidth() * 0.5, obj.img:getHeight() * 0.5)
-		--love.graphics.polygon("fill", obj.body_hand:getWorldPoints(obj.shape_hand:getPoints()))
+		
+		--love.graphics.polygon("fill", obj.body:getWorldPoints(obj.shape:getPoints()))
 		
 		love.graphics.setColor(255, 255, 255)
 	end
