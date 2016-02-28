@@ -29,10 +29,23 @@ end
 function PlayerBar:draw()
     local oldr,oldg,oldb,olda = g.getColor()	   
     
-    -- draw Max XP
+    PlayerBar.drawHealthbarBackground(self)
+    PlayerBar.drawHealthBar(self)
+    PlayerBar.drawHealthBarDamage(self)
+    
+    g.setColor(oldr,oldg,oldb,olda)
+end
+
+function PlayerBar:replaceHealth(newHealthFunction)
+    self.healthFunction = newHealthFunction
+end
+
+function PlayerBar:drawHealthbarBackground()
     g.setColor(100,100,100,150)
     g.rectangle("fill", self.xPos, self.yPos, self.width, self.height) 
+end
 
+function PlayerBar:drawHealthBar()
     -- Calculate Actual Width
     local factor = self.health / self.maxHealth
     self.widthHealth = self.width * factor
@@ -46,24 +59,19 @@ function PlayerBar:draw()
         g.setColor(self.hbColor[1],self.hbColor[2],self.hbColor[3],self.hbColor[4])       
         g.rectangle("fill", self.xPosHealth, self.yPosHealth, self.widthHealth, self.heightHealth) 
     end
-
-    -- draw the damaged Health at the end with the faded Color
-    
-    if oldHealthFadingValue ~= 0 then
-      g.setColor(self.hbColor[1],self.hbColor[2],self.hbColor[3],self.hbColor[4]) 
-      --g.rectangle("fill", xPos,y,widht,height)       
-    end
-    g.setColor(oldr,oldg,oldb,olda)
 end
 
-function PlayerBar:replaceHealth(newHealthFunction)
-    self.healthFunction = newHealthFunction
+function PlayerBar:drawHealthBarDamage(self)
+   
 end
 
 function PlayerBar:update(dt)
-    self.health = self.healthFunction()
+    
     if self.health < 0 then
         self.health = 0
     end
+    
+    self.health = self.healthFunction()  
+
 end
 
