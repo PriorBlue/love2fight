@@ -100,7 +100,7 @@ function createFighter(data)
 		end
 		
 		obj.attackTimer = math.max(0, obj.attackTimer - dt)
-		obj.damaged = math.max(0, obj.damaged - dt)
+		obj.damaged = math.max(0, obj.damaged - dt * 2)
      
     if joystick then
         directionX, directionY, joyLt, rxDirectionX, rxDirectionY, joyRt = joystick:getAxes( )
