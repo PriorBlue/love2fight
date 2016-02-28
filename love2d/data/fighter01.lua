@@ -14,5 +14,6 @@ return {
 		down = "s",
 	},
 	img = "gfx/crab_02.png",
+	spriteBatchImage = "gfx/crab_walk.png",
 	shadow = "gfx/shadow.png",
 }

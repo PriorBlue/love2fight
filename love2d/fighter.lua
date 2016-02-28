@@ -25,6 +25,19 @@ function createFighter(data)
 		up = "w",
 		down = "s",
 	}
+	obj.newImg = love.graphics.newImage(data.spriteBatchImage)
+	obj.newImg:setWrap("repeat","repeat")
+	local batchSizeX, batchSizeY = obj.newImg:getDimensions()
+	obj.quadSizeX, obj.quadSizeY = batchSizeX / 4, batchSizeY / 2
+	obj.spriteQuad = love.graphics.newQuad(0, 0, obj.quadSizeX, obj.quadSizeY, obj.newImg:getDimensions())
+	obj.spriteImgPositions = {}
+	for i = 1, 4 do
+	    obj.spriteImgPositions[i] = {((i-1)%4)*obj.quadSizeX,0}
+    end
+	for i = 5, 8 do
+	    obj.spriteImgPositions[i] = {((i-1)%4)*obj.quadSizeX, batchSizeY}
+    end
+    obj.currentSpriteImgID = 1
 	obj.img = love.graphics.newImage(data.img)
 	obj.shadow = love.graphics.newImage(data.shadow)
 	obj.scale = data.scale
@@ -41,8 +54,10 @@ function createFighter(data)
 		local x, y = obj.body:getLinearVelocity()
 
 		if love.keyboard.isDown(obj.controls.left) then
+	        obj.updateWalkCycle(dt)
 			obj.body:setLinearVelocity(-obj.speed, y)
 		elseif love.keyboard.isDown(obj.controls.right) then
+	        obj.updateWalkCycle(dt)
 			obj.body:setLinearVelocity(obj.speed, y)
 		else
 			obj.body:setLinearVelocity(0, y)
@@ -71,6 +86,22 @@ function createFighter(data)
 		obj.x = obj.body:getX()
 		obj.y = obj.body:getY()
 	end
+	obj.lastUpdate = 0
+	obj.updateWalkCycle = function(dt)
+	    --TODO
+	    --if dt - obj.lastUpdate < 100 then
+	    --    return
+        --end
+        --obj.lastUpdate = dt
+	    if obj.currentSpriteImgID < 4 then
+	        obj.currentSpriteImgID = obj.currentSpriteImgID + 1
+        else
+            obj.currentSpriteImgID = 1
+        end
+        local positions = obj.spriteImgPositions[obj.currentSpriteImgID]
+        
+        obj.spriteQuad:setViewport(positions[1],positions[2],obj.quadSizeX, obj.quadSizeY)
+	end
 
 	obj.draw = function(x)
 		local flip = (x > obj.x and -1 or 1)
@@ -79,7 +110,8 @@ function createFighter(data)
 		love.graphics.draw(obj.shadow, obj.body:getX(), love.graphics.getHeight() - 16 / obj.scale, 0, obj.scale * flip, obj.scale, obj.width * 0.5, obj.height * 0.5)
 		
 		love.graphics.setColor(unpack(obj.color))
-		love.graphics.draw(obj.img, obj.body:getX(), obj.body:getY(), 0, obj.scale * flip, obj.scale, obj.width * 0.5, obj.height * 0.5)
+		--love.graphics.draw(obj.img, obj.body:getX(), obj.body:getY(), 0, obj.scale * flip, obj.scale, obj.width * 0.5, obj.height * 0.5)
+		love.graphics.draw(obj.newImg, obj.spriteQuad, obj.body:getX(), obj.body:getY(), 0, obj.scale * flip, obj.scale, obj.width * 0.5, obj.height * 0.5)
 		
 		love.graphics.setColor(255, 255, 255)
 	end
