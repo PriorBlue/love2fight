@@ -27,6 +27,7 @@ function love.load()
 	phyWorld:setCallbacks(beginContact, endContact, preSolve, postSolve)
 
 	createPhysicsBox(love.graphics.getWidth() * 0.5, love.graphics.getHeight(), love.graphics.getWidth() * 10, 128)
+	createPhysicsBox(0, -16, love.graphics.getWidth() * 10, 32)
 	border1 = createPhysicsBox(0, 300, 32, 12000)
 	border2 = createPhysicsBox(love.graphics.getWidth(), 300, 32, 12000)
 	border3 = createPhysicsBox(love.graphics.getWidth() * 0.5, love.graphics.getHeight(), 32, love.graphics.getHeight())
@@ -74,8 +75,8 @@ function love.draw()
 	end
 
 	camera.trans()
-	fighter1.draw()
-	fighter2.draw()
+	fighter1.draw(fighter2.x)
+	fighter2.draw(fighter1.x)
 	
 	love.graphics.setColor(255, 255, 255)
 	ball.draw()

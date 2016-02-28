@@ -11,8 +11,6 @@ function createFighter(data)
 
 	obj.x = data.x or 0
 	obj.y = data.y or 0
-	obj.width = data.width or 32
-	obj.height = data.height or 32
 	obj.speed = data.speed or 100
 	obj.jumpStrength = data.jumpStrength or 100
 	obj.jumpDelay = data.jumpDelay or 1
@@ -27,6 +25,11 @@ function createFighter(data)
 		up = "w",
 		down = "s",
 	}
+	obj.img = love.graphics.newImage(data.img)
+	obj.shadow = love.graphics.newImage(data.shadow)
+	obj.scale = data.scale
+	obj.width = obj.img:getWidth() * obj.scale
+	obj.height = obj.img:getHeight() * obj.scale
 	obj.body = love.physics.newBody(phyWorld, obj.x, obj.y, "dynamic")
 	obj.body:setFixedRotation(true)
 	obj.shape = love.physics.newRectangleShape(obj.width, obj.height)
@@ -69,9 +72,15 @@ function createFighter(data)
 		obj.y = obj.body:getY()
 	end
 
-	obj.draw = function()
+	obj.draw = function(x)
+		local flip = (x > obj.x and -1 or 1)
+		
+		love.graphics.setColor(255, 255, 255, obj.y * 0.5)		
+		love.graphics.draw(obj.shadow, obj.body:getX(), love.graphics.getHeight() - 16 / obj.scale, 0, obj.scale * flip, obj.scale, obj.width * 0.5, obj.height * 0.5)
+		
 		love.graphics.setColor(unpack(obj.color))
-		love.graphics.rectangle("fill", obj.body:getX() - obj.width * 0.5, obj.body:getY() - obj.height * 0.5, obj.width, obj.height)
+		love.graphics.draw(obj.img, obj.body:getX(), obj.body:getY(), 0, obj.scale * flip, obj.scale, obj.width * 0.5, obj.height * 0.5)
+		
 		love.graphics.setColor(255, 255, 255)
 	end
 
