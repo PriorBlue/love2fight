@@ -62,12 +62,23 @@ function GameInterface:__init(player1HealthFunction, player2HealthFunction, game
             end
     end
     self.gameTime = gameTime
+    
 end
 
 function GameInterface:update(dt)
     self.player1Bar:update(dt)
     self.player2Bar:update(dt)
     --TODO maybe update time with GameInterface.updateTime(self,time)
+end
+
+-- takes up to two player health functions and replaces the corresponding health functions in the health bar(s) 
+function GameInterface:onReplacePlayers(playerOneHealthFunction, playerTwoHealthFunction)
+    if playerOneHealthFunction then
+        self.player1Bar:replaceHealth(playerOneHealthFunction)
+    end
+    if playerTwoHealthFunction then
+        self.player2Bar:replaceHealth(playerTwoHealthFunction)
+    end
 end
 
 function GameInterface:updateTime(newTime)
@@ -94,6 +105,6 @@ function GameInterface:draw()
     g.setColor(oldr,oldg,oldb,olda)
     -- draw health bars
     self.player1Bar:draw()
-    self.player2Bar:draw()    
+    self.player2Bar:draw()
 end
 

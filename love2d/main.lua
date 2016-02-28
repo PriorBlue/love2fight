@@ -26,9 +26,12 @@ function love.load()
 	phyWorld = love.physics.newWorld(0, 9.81 * 64)
 	phyWorld:setCallbacks(beginContact, endContact, preSolve, postSolve)
 
-	createPhysicsBox(400, 600, 8000, 128)
-	border1 = createPhysicsBox(0, 300, 32, 1200)
-	border2 = createPhysicsBox(800, 300, 32, 1200)
+	createPhysicsBox(love.graphics.getWidth() * 0.5, love.graphics.getHeight(), love.graphics.getWidth() * 10, 128)
+	border1 = createPhysicsBox(0, 300, 32, 12000)
+	border2 = createPhysicsBox(love.graphics.getWidth(), 300, 32, 12000)
+	border3 = createPhysicsBox(love.graphics.getWidth() * 0.5, love.graphics.getHeight(), 32, love.graphics.getHeight())
+	border4 = createPhysicsCircle(love.graphics.getWidth() * 0.5, love.graphics.getHeight() * 0.5, 16, "static")
+	ball = createPhysicsCircle(love.graphics.getWidth() * 0.5 + math.random(-8, 8), 0, 32)
 
 	fighter1 = loadFighter("data/fighter01.lua", love.graphics.getWidth() * 0.25, love.graphics.getHeight() - 80)
 	fighter2 = loadFighter("data/fighter02.lua", love.graphics.getWidth() * 0.75, love.graphics.getHeight() - 80)
@@ -78,6 +81,7 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.graphics.setColor(255, 255, 255)
 	local i=0
 	for k,v in pairs (backgrounds) do
 	v.draw()
@@ -89,6 +93,13 @@ function love.draw()
 	camera.trans()
 	fighter1.draw()
 	fighter2.draw()
+	
+	love.graphics.setColor(255, 255, 255)
+	ball.draw()
+	love.graphics.setColor(191, 191, 191)
+	border3.draw()
+	border4.draw()
+	love.graphics.setColor(255, 255, 255)
 
 	camera.untrans()
 	love2fight.gameInterface:draw()
