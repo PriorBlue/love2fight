@@ -34,21 +34,48 @@ function createFighter(data)
 	obj.fixture:setFriction(0)
 	obj.fixture:setUserData("Fighter")
 
-	obj.update = function(dt)
+    
+	obj.update = function(dt, joystick)
 		local x, y = obj.body:getLinearVelocity()
 
-		if love.keyboard.isDown(obj.controls.left) then
-			obj.body:setLinearVelocity(-obj.speed, y)
-		elseif love.keyboard.isDown(obj.controls.right) then
-			obj.body:setLinearVelocity(obj.speed, y)
-		else
-			obj.body:setLinearVelocity(0, y)
-		end
 
+    
+    if joystick then
+        directionX, directionY, joyLt, rxDirectionX, rxDirectionY, joyRt = joystick:getAxes( )
+      if not directionX then
+        directionX=0
+      end
+      if not directionY then
+        directionY=0
+      end
+      if directionX > (-0.2) and  directionX < (0.2) then
+        directionX=0
+      end
+    else
+      if love.keyboard.isDown(obj.controls.left) and not love.keyboard.isDown(obj.controls.right) then
+			--obj.body:setLinearVelocity(-obj.speed, y)
+      directionX = -1
+      elseif love.keyboard.isDown(obj.controls.right)and not love.keyboard.isDown(obj.controls.left) then
+        --obj.body:setLinearVelocity(obj.speed, y)
+        directionX = 1
+      else
+        obj.body:setLinearVelocity(0, y)
+        directionX=0
+      end
+      
+      if love.keyboard.isDown(obj.controls.up) then
+        directionY = -1
+      else  
+        directionY = 0
+      end
+    end
 		x, y = obj.body:getLinearVelocity()
 
+    obj.body:setLinearVelocity(obj.speed * directionX, y)
+    print (directionX)
+ 
 		if obj.jumpTime < obj.jumpDelay then
-			if love.keyboard.isDown(obj.controls.up) then
+			if directionY < -0.2 then
 				obj.body:setLinearVelocity(x, -obj.jumpStrength)
 				obj.jumpTime = obj.jumpTime + dt
 			--elseif love.keyboard.isDown(obj.controls.down) then
@@ -62,6 +89,7 @@ function createFighter(data)
 			obj.body:setLinearVelocity(x, y)
 		end
 
+ 
 		obj.x = math.max(0, obj.x)
 		obj.x = math.min(love.graphics.getWidth() - obj.width, obj.x)
 		
