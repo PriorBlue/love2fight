@@ -41,7 +41,24 @@ function love.load()
 	camera = createCamera({fighter1, fighter2})
   
   sfx = love.audio.newSource("sfx/321fight.mp3", "static")
-  love.audio.play(sfx)
+  love.audio.play(sfx) 
+  sfx1=sfx
+  love.audio.play(sfx1)
+  
+
+
+  
+  sfxLoopMusic = love.audio.newSource("sfx/Brandon_Liew_-_03_-_Fight_Action.mp3", "stream")
+  sfxLoopMusic:setVolume(0.3)
+  sfxLoopMusic:setLooping( true )
+  love.audio.play(sfxLoopMusic)
+  
+  sfxLoopWater = love.audio.newSource("sfx/water.wav", "stream")
+  sfxLoopWater:setVolume(0.1)
+  sfxLoopWater:setLooping( true )
+  love.audio.play(sfxLoopWater)
+  
+
 
 end
 
