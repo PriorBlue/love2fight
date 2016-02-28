@@ -69,15 +69,7 @@ function createFighter(data)
 
 	obj.update = function(dt, fighter, joystick)
 		local x, y = obj.body:getLinearVelocity()
-		if love.keyboard.isDown(obj.controls.left) then
-	        obj.updateWalkCycle(dt)
-			obj.body:setLinearVelocity(-obj.speed, y)
-		elseif love.keyboard.isDown(obj.controls.right) then
-	        obj.updateWalkCycle(dt)
-			obj.body:setLinearVelocity(obj.speed, y)
-		else
-			obj.body:setLinearVelocity(0, y)
-		end
+	
 
 		if love.keyboard.isDown(obj.controls.attack) then
 			if obj.attack == false and obj.attackTimer == 0 then
