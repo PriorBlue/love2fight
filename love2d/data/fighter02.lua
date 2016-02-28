@@ -1,18 +1,20 @@
 return {
-	scale = 0.5,
+	scale = 0.75,
 	height = 64,
 	speed = 200,
-	jumpStrength = 800,
+	jumpStrength = 1000,
 	jumpDelay = 0.3,
 	health = 100,
 	lifes = 2,
-	color = {255, 0, 63},
+	color = {255, 127, 191},
 	controls = {
 		left = "j",
 		right = "l",
 		up = "i",
 		down = "k",
+		attack = "o",
 	},
 	img = "gfx/crab_02.png",
+    spriteBatchImage = "gfx/crab_walk.png",
 	shadow = "gfx/shadow.png",
 }

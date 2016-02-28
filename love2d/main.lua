@@ -8,6 +8,7 @@ require("physicElements")
 require("camera")
 
 love2fight = {}
+beachmode = false
 
 function love.load()
  
@@ -34,6 +35,10 @@ function love.load()
 	border3 = createPhysicsBox(love.graphics.getWidth() * 0.5, love.graphics.getHeight(), 32, love.graphics.getHeight())
 	border4 = createPhysicsCircle(love.graphics.getWidth() * 0.5, love.graphics.getHeight() * 0.5, 16, "static")
 	ball = createPhysicsCircle(love.graphics.getWidth() * 0.5 + math.random(-8, 8), 0, 32)
+	
+	ball.fixture:setSensor(true)
+	border3.fixture:setSensor(true)
+	border4.fixture:setSensor(true)
 
 	fighter1 = loadFighter("data/fighter01.lua", love.graphics.getWidth() * 0.25, love.graphics.getHeight() - 80)
 	fighter2 = loadFighter("data/fighter02.lua", love.graphics.getWidth() * 0.75, love.graphics.getHeight() - 80)
@@ -49,8 +54,6 @@ function love.load()
   sfx1=sfx
   love.audio.play(sfx1)
   
-
-
   
   sfxLoopMusic = love.audio.newSource("sfx/Brandon_Liew_-_03_-_Fight_Action.mp3", "stream")
   sfxLoopMusic:setVolume(0.3)
@@ -62,13 +65,16 @@ function love.load()
   sfxLoopWater:setLooping( true )
   love.audio.play(sfxLoopWater)
   
-
-
+  joysticks = love.joystick.getJoysticks()
+  print (joysticks[1])
+ 
 end
 
 function love.update(dt)
-	fighter1.update(dt)
-	fighter2.update(dt)
+
+	fighter1.update(dt, fighter2, joysticks[1])
+	fighter2.update(dt, fighter1, joysticks[2])
+
 	camera.update(dt)
 	phyWorld:update(dt)
 	love2fight.gameInterface:update(dt)
@@ -98,15 +104,20 @@ function love.draw()
 	camera.trans()
 	fighter1.draw(fighter2.x)
 	fighter2.draw(fighter1.x)
-	
-	love.graphics.setColor(255, 255, 255)
-	ball.draw()
-	love.graphics.setColor(191, 191, 191)
-	border3.draw()
-	border4.draw()
-	love.graphics.setColor(255, 255, 255)
+
+	if beachmode then
+		love.graphics.setColor(255, 255, 255)
+		ball.draw()
+		love.graphics.setColor(191, 191, 191)
+		border3.draw()
+		border4.draw()
+		love.graphics.setColor(255, 255, 255)
+	end
 
 	camera.untrans()
+
+	love2fight.gameInterface:draw()
+
     if love2fight.currentGameMode == love2fight.gameModes[1] then
     	love2fight.mainMenu:draw()
     elseif love2fight.currentGameMode == love2fight.gameModes[3] then
@@ -124,7 +135,13 @@ function love.keypressed(key)
 end
 
 function love.keyreleased(key)
-
+	if key == "b" then
+		beachmode = not beachmode
+		ball.body:setPosition(love.graphics.getWidth() * 0.5 + math.random(-8, 8), 0)
+		ball.fixture:setSensor(not beachmode)
+		border3.fixture:setSensor(not beachmode)
+		border4.fixture:setSensor(not beachmode)
+	end
 end
 
 function love.mousepressed(x, y, button)
