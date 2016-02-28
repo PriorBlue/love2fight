@@ -67,8 +67,8 @@ function love.load()
 end
 
 function love.update(dt)
-	fighter1.update(dt)
-	fighter2.update(dt)
+	fighter1.update(dt, fighter2)
+	fighter2.update(dt, fighter1)
 	camera.update(dt)
 	phyWorld:update(dt)
 	love2fight.gameInterface:update(dt)
