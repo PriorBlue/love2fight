@@ -47,8 +47,8 @@ function love.load()
 	border3.fixture:setSensor(true)
 	border4.fixture:setSensor(true)
 
-	fighter1 = loadFighter("data/fighter01.lua", love.graphics.getWidth() * 0.25, love.graphics.getHeight() - 80)
-	fighter2 = loadFighter("data/fighter02.lua", love.graphics.getWidth() * 0.75, love.graphics.getHeight() - 80)
+	fighter1 = loadFighter("data/fighter01", love.graphics.getWidth() * 0.25, love.graphics.getHeight() - 80)
+	fighter2 = loadFighter("data/fighter02", love.graphics.getWidth() * 0.75, love.graphics.getHeight() - 80)
     love2fight.gameInterface = GameInterface:new(fighter1.getHealth, fighter2.getHealth)
 	if love._version_major >=10 then 
     love2fight.mainMenu = MainMenu:new()

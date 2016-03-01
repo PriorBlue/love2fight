@@ -1,5 +1,5 @@
 function loadFighter(path, x, y)
-	local data = dofile(path)
+	local data = require(path)
 	data.x = x
 	data.y = y
 	
